@@ -1,0 +1,25 @@
+.form__logout-link {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #FF3055;
+  transition: opacity 0.3s linear;
+  cursor: pointer;
+  margin: 0;
+  text-decoration: none;
+}
+
+
+.form__logout-link:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 768px) {
+  .form__logout-link {
+    font-size: 13px;
+    line-height: 16px;
+  }
+}

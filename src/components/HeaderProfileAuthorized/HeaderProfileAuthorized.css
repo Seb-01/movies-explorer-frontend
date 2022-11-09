@@ -1,0 +1,31 @@
+.header-profile-auth{
+  width: 109px;
+  height: 32px;
+  background: #073042;
+  border: 2px solid #F5F5F5;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 40px;
+}
+
+.header-profile-auth__link{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .header-profile-auth {
+    display: none;
+  }
+}

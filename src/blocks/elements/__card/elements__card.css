@@ -1,0 +1,15 @@
+.elements__card {
+  width: 270px;
+}
+
+@media screen and (max-width: 768px) {
+  .elements__card {
+    width: 339px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .elements__card {
+    width: 300px;
+  }
+}

@@ -1,0 +1,38 @@
+.main-title__container {
+  max-width: 1140px;
+  margin: auto;
+  border-bottom: 1px solid #000000;
+}
+
+.main-title__title {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  /* identical to box height */
+  letter-spacing: -0.04em;
+  color: #000000;
+  padding: 110px 0 23px;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .main-title__container{
+    max-width: 668px;
+  }
+  .main-title__title {
+    padding: 90px 0 23px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .main-title__container{
+    max-width: 320px;
+  }
+  .main-title__title {
+    padding: 70px 0 28px;
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

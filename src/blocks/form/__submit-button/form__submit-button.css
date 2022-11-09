@@ -1,0 +1,34 @@
+.form__submit-button {
+  width: 396px;
+  height: 45px;
+  transition: opacity 0.3s linear;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 124px auto 0;
+  background: #3456F3;
+  border-radius: 3px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  text-align: center;
+  color: #FFFFFF;
+  display: block;
+}
+
+.form__submit-button:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 767px) {
+  .form__submit-button {
+    width: 238px;
+    height: 46px;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 13px auto 25px;
+  }
+}

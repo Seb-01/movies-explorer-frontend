@@ -1,0 +1,116 @@
+.techs {
+  max-width: 1280px;
+  background: #F5F5F5;
+  padding: 0 70px;
+}
+
+.techs__content-container {
+  max-width: 1140px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.techs__content-title {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  /* identical to box height, or 116% */
+  text-align: center;
+  letter-spacing: -0.04em;
+  color: #000000;
+  margin: 0;
+  padding-top: 90px;
+}
+
+.techs__content-description {
+  margin: 0;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  /* or 143% */
+  text-align: center;
+  letter-spacing: -0.04em;
+  color: #000000;
+  padding-top: 26px;
+}
+
+.techs__list {
+  display:flex;
+  padding: 100px 0 84px;
+  margin: auto;
+  column-gap: 10px;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  justify-content: center;
+}
+
+
+@media screen and (max-width: 768px) {
+  .techs {
+    max-width: 768px;
+    padding: 0 50px;
+  }
+  .techs__content-description {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+.techs__list-item {
+  display: flex;
+  width: 90px;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  background: #E8E8E8;
+  border-radius: 10px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  text-align: center;
+  letter-spacing: -0.04em;
+  color: #000000;
+}
+
+@media screen and (max-width: 768px) {
+  .techs__list-item {
+    width: 84px;
+    height: 57px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .techs__list{
+    padding: 83px 0 90px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .techs__content-title {
+    font-size: 30px;
+    line-height: 36px;
+    padding-top: 60px;
+  }
+  .techs__content-description {
+    font-size: 11px;
+    line-height: 16px;
+    padding-top: 24px;
+  }
+  .techs__list{
+    padding: 50px 0 70px;
+    max-width: 260px;
+  }
+  .techs {
+    max-width: 1280px;
+    background: #F5F5F5;
+    padding: 0 18px;
+  }
+}

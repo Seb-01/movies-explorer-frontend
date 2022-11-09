@@ -1,0 +1,33 @@
+.portfolio-list-bullet{
+  display: flex;
+  /* grid-template-columns: 880px 29px; */
+  max-width: 1140px;
+  /* column-gap: 231px; */
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portfolio-list-bullet__value {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 50px;
+  /* identical to box height, or 167% */
+  letter-spacing: -0.04em;
+  color: #000000;
+  }
+
+  @media screen and (max-width: 768px) {
+    .portfolio-list-bullet__value {
+      font-size: 28px;
+      line-height: 50px;
+    }
+  }
+
+  @media screen and (max-width: 320px) {
+    .portfolio-list-bullet__value {
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
