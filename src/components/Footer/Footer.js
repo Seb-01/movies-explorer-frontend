@@ -6,7 +6,7 @@ function Footer(props) {
       <h3 className="footer__title">
         Учебный проект Яндекс.Практикум х BeatFilm.
       </h3>
-      <div className="footer__content">
+      <section className="footer__content">
         <p className="footer__copyrigth">&copy; {new Date().getFullYear()}</p>
         <div className="footer__links">
           <a
@@ -24,7 +24,7 @@ function Footer(props) {
             GitHub
           </a>
         </div>
-      </div>
+      </section>
     </footer>
   );
 }

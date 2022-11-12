@@ -8,7 +8,7 @@ function MainHeader(props) {
   return (
     <header className="main-header">
       <Logo logo={logoHeader} />
-      <div className="main-header__links">
+      <section className="main-header__links">
         <Link to="signup" className="main-header__link">
           Регистрация
         </Link>
@@ -18,7 +18,7 @@ function MainHeader(props) {
         >
           Войти
         </Link>
-      </div>
+      </section>
     </header>
   );
 }

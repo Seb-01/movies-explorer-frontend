@@ -8,7 +8,7 @@ function PopupWithoutForm(props) {
   // console.log(`popup ${props.isOpen === true ? "popup_opened" : ""}`);
 
   return (
-    <div className={`popup${props.isOpen === true ? " popup_opened" : ""}`}>
+    <section className={`popup${props.isOpen === true ? " popup_opened" : ""}`}>
       <div className="popup__container">
         {/* тут будет вложенное содержимое в виде JSX-разметки */}
         {props.children}
@@ -25,7 +25,7 @@ function PopupWithoutForm(props) {
           />
         </button>
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -2,7 +2,7 @@ import "./Promo.css";
 
 function Promo(props) {
   return (
-    <div className="promo">
+    <section className="promo">
       <img
         className="promo__banner"
         src={props.banner}
@@ -11,7 +11,7 @@ function Promo(props) {
       <p className="promo__landing-text">
         Учебный проект студента факультета Веб-разработки.
       </p>
-    </div>
+    </section>
   );
 }
 

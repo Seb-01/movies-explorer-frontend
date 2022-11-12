@@ -13,7 +13,7 @@
 }
 
 .techs__content-title {
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 50px;
@@ -28,7 +28,7 @@
 
 .techs__content-description {
   margin: 0;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -70,7 +70,7 @@
   align-items: center;
   background: #E8E8E8;
   border-radius: 10px;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -90,6 +90,13 @@
   }
   .techs__list{
     padding: 83px 0 90px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .techs__content-title {
+    font-size: 30px;
+    line-height: 36px;
   }
 }
 
@@ -114,3 +121,4 @@
     padding: 0 18px;
   }
 }
+

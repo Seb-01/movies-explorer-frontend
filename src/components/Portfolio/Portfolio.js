@@ -4,8 +4,8 @@ import ProfilProjectLinkPic from "../../images/profile_project_link.svg";
 
 function Portfolio() {
   return (
-    <div className="portfolio">
-      <div className="portfolio__content-container">
+    <section className="portfolio">
+      <section className="portfolio__content-container">
         <h3 className="portfolio__content-title">Портфолио</h3>
         <ul className="portfolio__list">
           <li className="portfolio__list-item">
@@ -36,8 +36,8 @@ function Portfolio() {
             />
           </li>
         </ul>
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }
 

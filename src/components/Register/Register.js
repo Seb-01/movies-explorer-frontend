@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 function Register(props) {
   return (
     <>
-      <div className="form__reg-login-container">
+      <section className="form__reg-login-container">
         <form name={props.name} onSubmit={props.onSubmit}>
           <div className="form__reg-login-logo">
             <img src={logoRegister} alt="Лого Movies-Explorer" />
@@ -73,7 +73,7 @@ function Register(props) {
             </Link>
           </div>
         </form>
-      </div>
+      </section>
     </>
   );
 }

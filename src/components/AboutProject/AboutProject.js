@@ -5,7 +5,7 @@ function AboutProject() {
   return (
     <div className="about-project">
       <MainTitle title="О проекте" />
-      <div className="about-project__content-container">
+      <section className="about-project__content-container">
         <div className="about-project__content-wrapper">
           <h3 className="about-project__content-title">
             Дипломный проект включал 5 этапов
@@ -24,9 +24,9 @@ function AboutProject() {
             соблюдать, чтобы успешно защититься.
           </p>
         </div>
-      </div>
+      </section>
 
-      <div className="about-project__graph-container">
+      <section className="about-project__graph-container">
         <div className="about-project__graph-cell about-project__graph-cell_color-green">
           <span className="about-project__graph-cell-duration">1 неделя</span>
         </div>
@@ -39,7 +39,7 @@ function AboutProject() {
         <div className="about-project__graph-cell">
           <span className="about-project__graph-cell-value">Front-end</span>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

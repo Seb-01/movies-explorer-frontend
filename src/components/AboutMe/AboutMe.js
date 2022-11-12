@@ -8,8 +8,8 @@ function AboutMe(props) {
       <MainTitle title="Студент" />
 
       <div className="about-me__content-container">
-        <div className="about-me__abc">
-          <div className="about-me__content-wrapper">
+        <section className="about-me__abc">
+          <article className="about-me__content-wrapper">
             <h2 className="about-me__content-title">Вячеслав</h2>
             <h3 className="about-me__content-subtitle">
               Фронтенд-разработчик, 30 лет
@@ -21,21 +21,21 @@ function AboutMe(props) {
               Контур». После того, как прошёл курс по веб-разработке, начал
               заниматься фриланс-заказами и ушёл с постоянной работы.
             </p>
-          </div>
+          </article>
           <a
             href="https://github.com/Seb-01"
             className="about-me__content-link"
           >
             GitHub
           </a>
-        </div>
-        <div className="about-me__content-photo-wrapper">
+        </section>
+        <section className="about-me__content-photo-wrapper">
           <img
             className="about-me__content-photo"
             src={Author}
             alt="Фото автора"
           />
-        </div>
+        </section>
       </div>
     </div>
   );

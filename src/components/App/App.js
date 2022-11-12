@@ -50,7 +50,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <main className="App">
       <Switch>
         <Route exact path="/">
           {loggedIn ? (
@@ -99,7 +99,7 @@ function App() {
         onClose={closeAllPopups}
         updateIsOpenPopupMenu={updateIsOpenPopupMenu}
       />
-    </div>
+    </main>
   );
 }
 

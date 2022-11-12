@@ -5,12 +5,12 @@ import profileIcon from "../../images/profile_icon.svg";
 
 function HeaderProfile(props) {
   return (
-    <div className="header-profile">
+    <header className="header-profile">
       <Link to="/profile" className="header-profile__link">
         Аккаунт
       </Link>
       <ProfileIcon icon={profileIcon} />
-    </div>
+    </header>
   );
 }
 

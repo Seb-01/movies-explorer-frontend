@@ -1,16 +1,18 @@
 import "./Navigation.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import buttonMenuPic from "../../images/button_menu_pic.svg";
 import buttonMenuBlackPic from "../../images/button_menu_black_pic.svg";
 
 function Navigation(props) {
+  //const setActive = ({ isActive }) =>(isActive ? "navigation__link navigation__link_active" : "navigation__link");
+
   return (
-    <div
+    <section
       className={
         props.auth === "true" ? "navigation navigation_auth" : "navigation"
       }
     >
-      <Link
+      <NavLink
         to="/movies"
         className={
           props.auth === "true"
@@ -19,8 +21,8 @@ function Navigation(props) {
         }
       >
         Фильмы
-      </Link>
-      <Link
+      </NavLink>
+      <NavLink
         to="/saved-movies"
         className={
           props.auth === "true"
@@ -29,7 +31,7 @@ function Navigation(props) {
         }
       >
         Сохраненные фильмы
-      </Link>
+      </NavLink>
       <button
         className="navigation__button"
         onClick={props.updateIsOpenPopupMenu}
@@ -39,7 +41,7 @@ function Navigation(props) {
           alt="Изображение кнопки меню"
         />
       </button>
-    </div>
+    </section>
   );
 }
 

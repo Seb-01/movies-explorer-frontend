@@ -3,11 +3,12 @@
   display: flex;
   flex-direction: column;
   margin: auto;
+  padding: 0 70px;
 }
 
 .footer__title{
   max-width: 1140px;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -32,7 +33,7 @@
 }
 
 .footer__copyrigth{
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -48,7 +49,7 @@
 
 .footer__link {
   padding-left: 20px;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
@@ -60,7 +61,8 @@
 
 @media screen and (max-width: 768px) {
   .footer{
-    max-width: 708px;
+    max-width: 768px;
+    padding: 0 30px;
   }
 }
 
@@ -90,6 +92,7 @@
 
 @media screen and (max-width: 320px) {
   .footer{
-    max-width: 292px;
+    max-width: 320px;
+    padding: 0 10px;
   }
 }

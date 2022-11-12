@@ -3,9 +3,9 @@ import "./Techs.css";
 
 function Techs() {
   return (
-    <div className="techs">
+    <section className="techs">
       <MainTitle title="Технологии" />
-      <div className="techs__content-container">
+      <section className="techs__content-container">
         <h3 className="techs__content-title">7 технологий</h3>
         <p className="techs__content-description">
           На курсе веб-разработки мы освоили технологии, которые применили{" "}
@@ -20,8 +20,8 @@ function Techs() {
           <li className="techs__list-item">Express.js</li>
           <li className="techs__list-item">mongoDB</li>
         </ul>
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }
 

@@ -6,16 +6,17 @@
     flex-direction: row;
     justify-content: space-between;
     margin-left: 50px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 18px;
-    color: #000000;
+
 }
 
 .header-profile__link{
   text-decoration: none;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #000000;
 }
 
 @media screen and (max-width: 768px) {

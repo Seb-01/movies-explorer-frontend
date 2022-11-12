@@ -9,7 +9,7 @@ function SearchForm(props) {
   };
 
   return (
-    <div className="search-form">
+    <section className="search-form">
       {/* Правильно подставляем имя формы! */}
       <form
         name={props.formName}
@@ -20,6 +20,7 @@ function SearchForm(props) {
           <input
             className="search-form__input"
             type="text"
+            required
             placeholder={props.placeholder}
           ></input>
           <button className="search-form__button" type="submit">
@@ -28,7 +29,7 @@ function SearchForm(props) {
         </div>
         <FilterCheckBox onChange={handleChange} />
       </form>
-    </div>
+    </section>
   );
 }
 

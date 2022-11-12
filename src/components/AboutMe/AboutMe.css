@@ -24,7 +24,7 @@
 
 .about-me__content-title {
   margin: 0;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 50px;
@@ -36,7 +36,7 @@
 
 .about-me__content-subtitle {
   margin: 0;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -48,7 +48,7 @@
 
 .about-me__content-description {
   margin: 0;
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -71,7 +71,7 @@
 }
 
 .about-me__content-link {
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;

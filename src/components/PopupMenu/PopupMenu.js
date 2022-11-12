@@ -35,7 +35,7 @@ function PopupMenu(props) {
           </Link>
         </li>
       </ul>
-      <div className="popup-menu__profile-link-wrapper">
+      <section className="popup-menu__profile-link-wrapper">
         <Link
           to="/profile"
           className="popup-menu__profile__link"
@@ -46,7 +46,7 @@ function PopupMenu(props) {
         <div className="popup-menu__profile-icon">
           <img src={profileIcon} alt="Иконка Профиль пользователя" />
         </div>
-      </div>
+      </section>
     </PopupWithoutForm>
   );
 }

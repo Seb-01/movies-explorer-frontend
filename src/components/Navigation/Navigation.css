@@ -5,21 +5,25 @@
   flex-direction: row;
   justify-content: space-between;
   margin-left: auto;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 18px;
-  color: #000000;
-
 }
 
 .navigation_auth{
   background: #073042;
 }
+
 .navigation__link{
   text-decoration: none;
   margin-left: 20px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #000000;
+}
+
+.navigation__link_active{
+  font-weight: 500;
 }
 
 .navigation__link_auth{

@@ -8,7 +8,7 @@
 }
 
 .portfolio-list-bullet__value {
-  font-family: 'Inter';
+  font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 30px;
@@ -16,7 +16,14 @@
   /* identical to box height, or 167% */
   letter-spacing: -0.04em;
   color: #000000;
+  text-decoration: none;
+  padding-right: 20px;
   }
+
+.portfolio-list-bullet__arrow{
+  width: 29px;
+  height: 100%;
+}
 
   @media screen and (max-width: 768px) {
     .portfolio-list-bullet__value {
@@ -25,9 +32,12 @@
     }
   }
 
-  @media screen and (max-width: 320px) {
+  @media screen and (max-width: 400px) {
     .portfolio-list-bullet__value {
       font-size: 18px;
       line-height: 28px;
+    }
+    .portfolio-list-bullet__arrow{
+      width: 18px;
     }
   }

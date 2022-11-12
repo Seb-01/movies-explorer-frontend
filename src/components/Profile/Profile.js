@@ -7,7 +7,7 @@ function Profile(props) {
   return (
     <>
       <Header updateIsOpenPopupMenu={props.updateIsOpenPopupMenu} />
-      <div className="form__container">
+      <section className="form__container">
         <form name={props.name} onSubmit={props.onSubmit}>
           <h2 className="form__profile-title">Привет, {props.title}!</h2>
 
@@ -53,7 +53,7 @@ function Profile(props) {
             </Link>
           </div>
         </form>
-      </div>
+      </section>
     </>
   );
 }
