@@ -1,0 +1,21 @@
+.form__reg-login-container {
+  max-width: 1280px;
+  display: flex;
+  justify-content: center;
+  padding: 70px 0 70px;
+}
+
+@media screen and (max-width: 768px) {
+  .form__reg-login-container {
+    max-width: 768px;
+    padding: 232px 0 232px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .form__reg-login-container {
+    max-width: 320px;
+    padding: 56px 0 40px;
+    margin: auto;
+  }
+}

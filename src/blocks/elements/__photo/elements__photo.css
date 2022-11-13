@@ -1,0 +1,28 @@
+.elements__photo {
+  width: 270px;
+  height: 151px;
+  background: #c4c4c4;
+  display: block;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.3s linear;
+}
+
+.elements__photo:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 768px) {
+  .elements__photo {
+    width: 339px;
+    height: 190px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .elements__photo {
+    width: 300px;
+    height: 168px;
+  }
+}

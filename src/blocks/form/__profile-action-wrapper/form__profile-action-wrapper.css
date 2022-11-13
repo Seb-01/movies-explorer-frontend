@@ -1,0 +1,13 @@
+.form__profile-action-wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #A0A0A0;
+  margin-top: 16px;
+}

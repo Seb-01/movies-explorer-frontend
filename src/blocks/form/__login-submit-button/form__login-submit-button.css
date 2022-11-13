@@ -1,0 +1,46 @@
+.form__login-submit-button {
+  width: 396px;
+  height: 45px;
+  transition: opacity 0.3s linear;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 221px auto 0;
+  background: #3456F3;
+  border-radius: 3px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  text-align: center;
+  color: #FFFFFF;
+  display: block;
+}
+
+.form__login-submit-button:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 768px) {
+  .form__login-submit-button {
+    margin: 221px auto 0;
+  }
+ }
+
+@media screen and (max-width: 420px) {
+  .form__login-submit-button {
+    margin: 424px auto 0;
+    width: 260px;
+  }
+}
+
+
+@media screen and (max-width: 380px) {
+  .form__login-submit-button {
+    margin: 309px auto 0;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

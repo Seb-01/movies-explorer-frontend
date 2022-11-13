@@ -1,0 +1,36 @@
+.navtab {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 1280px;
+  min-width: 320px;
+  min-height: 66px;
+  margin: auto;
+  background: #000000;
+  justify-content: center;
+}
+
+.navtab__link {
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  /* or 123% */
+  display: flex;
+  align-items: center;
+  text-decoration-line: underline;
+  color: #FFFFFF;
+}
+
+.navtab__link:nth-child(2) {
+  margin: 0 40px;
+}
+
+@media screen and (max-width: 320px) {
+.navtab__link{
+  font-size: 11px;
+  line-height: 16px;
+  }
+}

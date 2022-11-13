@@ -1,0 +1,20 @@
+.form__profile-input {
+  border: 0;
+  width: 410px;
+  box-sizing: border-box;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+  padding: 17px 0 16px;
+  margin: 0;
+  text-align: end;
+}
+
+@media screen and (max-width: 480px) {
+  .form__profile-input {
+    width: 220px;
+  }
+}
