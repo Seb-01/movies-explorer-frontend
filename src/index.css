@@ -30,6 +30,7 @@ body {
 @import url(./blocks/form/__reg-login-container/form__reg-login-container.css);
 @import url(./blocks/form/__reg-login-link-wrapper/form__reg-login-link-wrapper.css);
 @import url(./blocks/form/__reg-login-submit-button/form__reg-login-submit-button.css);
+@import url(./blocks/form/__reg-login-submit-button/_disabled/form__reg-login-submit-button_disabled.css);
 @import url(./blocks/form/__reg-login-logo/form__reg-login-logo.css);
 @import url(./blocks/form/__reg-login-title/form__reg-login-title.css);
 

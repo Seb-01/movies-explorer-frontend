@@ -25,9 +25,12 @@ import MainHeader from "../MainHeader/MainHeader";
 import banner from "../../images/landing-logo.svg";
 import NavTab from "../NavTab/NavTab";
 import PopupMenu from "../PopupMenu/PopupMenu";
+import { register } from "../../utils/MainApi";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(true);
+
+  const history = useHistory();
 
   // переменные состояния, отвечающие за видимость попапов
   const [popups, setPopups] = useState({
@@ -48,6 +51,22 @@ function App() {
       isPopupMenuOpen: !popups.isPopupMenuOpen,
     });
   }
+
+  // регистрация нового пользователя
+  const onRegister = (name, email, password) => {
+    // сюда добавим логику обработки формы регистрации
+    register(email, password, name)
+      // здесь уже данные пользователя от сервера
+      .then((res) => {
+        console.log(res);
+        if (res) {
+          history.push("/signin");
+        }
+      })
+      .catch((err) => {
+        console.log(`Ошибка при регистрации пользователя: ${err}!`);
+      });
+  };
 
   return (
     <main className="App">
@@ -90,6 +109,11 @@ function App() {
           <Register
             buttonSubmitText="Зарегистрироваться"
             title="Добро пожаловать!"
+            minLengthName={2}
+            maxLengthName={30}
+            minLengthPassword={8}
+            maxLengthPassword={200}
+            onRegister={register}
           />
         </Route>
       </Switch>

@@ -1,3 +1,11 @@
+// export const MAIN_API_CONFIG = {
+//   URL: "https://api.nomoreparties.co",
+// };
+
+export const MAIN_API_CONFIG_DEV = {
+  URL: "http://localhost:3001",
+};
+
 export const moviesDataBase = [
   {
     id: 1,

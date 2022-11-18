@@ -14,8 +14,8 @@
 
 @media screen and (max-width: 420px) {
   .form__reg-login-container {
-    max-width: 320px;
-    padding: 56px 0 40px;
+    max-width: 260px;
+    padding: 56px 30px 40px;
     margin: auto;
   }
 }
