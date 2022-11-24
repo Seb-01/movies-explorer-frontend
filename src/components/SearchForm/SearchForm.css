@@ -39,6 +39,7 @@
   color: #A0A0A0;
   text-indent: 20px;
   padding: 0;
+  outline: none;
 }
 
 .search-form__button {

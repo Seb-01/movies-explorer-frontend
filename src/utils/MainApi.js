@@ -14,77 +14,127 @@ function checkResponse(res) {
   return Promise.reject(`Ошибка выполнении запроса к серверу: ${res.status}`);
 }
 
+/** Регистрация пользователя
+ *
+ */
 export const register = (email, password, name) => {
-  return fetch(`${URL}/signup`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password, name }),
-  }).then((res) => checkResponse(res));
+  return (
+    fetch(`${URL}/signup`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, name }),
+    })
+      // выполнится, если промис исполнен. Аргумент - функция обработчик успешного выполнения промиса
+      .then((res) => checkResponse(res))
+  );
 };
 
-export const authorize = (email, password) => {
-  return fetch(`${URL}/signin`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ password, email }),
-  }).then((res) => checkResponse(res));
+/** Логин пользователя
+ *
+ */
+export const login = (email, password) => {
+  return (
+    fetch(`${URL}/signin`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password, email }),
+    })
+      // выполнится, если промис исполнен. Аргумент - функция обработчик успешного выполнения промиса
+      .then((res) => checkResponse(res))
+      // получаем токен, сохраняем его в localStorage клиента
+      .then((data) => {
+        if (data.token) {
+          // сохраняем токен
+          localStorage.setItem("jwt", data.token);
+          console.log(`data: ${data}`);
+          console.log(`data.token: ${data.token}`);
+          return data;
+        } else {
+          return;
+        }
+      })
+  );
 };
 
-export const getUserData = (token) => {
+/** Mетод для загрузки пользовательского профиля
+ *
+ */
+export const getUserProfile = () => {
+  const jwt = localStorage.getItem("jwt");
   return fetch(`${URL}/users/me`, {
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${jwt}`,
     },
   }).then((res) => checkResponse(res));
 };
 
-export const getSavedNews = (token) => {
-  return fetch(`${URL}/articles`, {
-    method: "GET",
+/** Метод для обновления профиля пользователя
+ *
+ */
+export const updateUserProfile = (userNname, email) => {
+  const jwt = localStorage.getItem("jwt");
+  // отправляем запрос
+  return fetch(`${URL}/users/me`, {
+    method: "PATCH",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  }).then((res) => checkResponse(res));
-};
-
-export const addNewsCard = (newsArticle, token) => {
-  return fetch(`${URL}/articles`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${jwt}`,
     },
     body: JSON.stringify({
-      keyword: newsArticle.keyword,
-      title: newsArticle.title,
-      text: newsArticle.description,
-      date: newsArticle.publishedAt,
-      source: newsArticle.source.name,
-      link: newsArticle.url,
-      image: newsArticle.urlToImage,
+      name: userNname,
+      email: email,
     }),
   }).then((res) => checkResponse(res));
 };
 
-export const removeCard = (id, token) => {
-  return fetch(`${URL}/articles/${id}`, {
-    method: "DELETE",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  }).then((res) => checkResponse(res));
-};
+// export const getSavedNews = (token) => {
+//   return fetch(`${URL}/articles`, {
+//     method: "GET",
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//   }).then((res) => checkResponse(res));
+// };
+
+// export const addNewsCard = (newsArticle, token) => {
+//   return fetch(`${URL}/articles`, {
+//     method: "POST",
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//     body: JSON.stringify({
+//       keyword: newsArticle.keyword,
+//       title: newsArticle.title,
+//       text: newsArticle.description,
+//       date: newsArticle.publishedAt,
+//       source: newsArticle.source.name,
+//       link: newsArticle.url,
+//       image: newsArticle.urlToImage,
+//     }),
+//   }).then((res) => checkResponse(res));
+// };
+
+// export const removeCard = (id, token) => {
+//   return fetch(`${URL}/articles/${id}`, {
+//     method: "DELETE",
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//   }).then((res) => checkResponse(res));
+// };

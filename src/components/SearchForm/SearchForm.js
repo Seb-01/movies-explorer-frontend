@@ -1,12 +1,37 @@
 import "./SearchForm.css";
 import FilterCheckBox from "../FilterCheckbox/FilterCheckbox";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function SearchForm(props) {
+  // стейт отслеживающий чек-бокс
   const [checked, setChecked] = React.useState(false);
-  const handleChange = () => {
+
+  // обработчик чек-бокса
+  const handleCheckBox = () => {
     setChecked(!checked);
+    alert(`SearchForm: ${checked}!`);
   };
+
+  // управляемый элемент input
+  const [queryText, setQueryText] = useState("");
+
+  //обрабочки ввода в поле input
+  const handleQuery = (event) => {
+    const target = event.target;
+    const value = target.value;
+    setQueryText(value);
+  };
+
+  // обработчик формы
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    props.onSearch(queryText, checked);
+  };
+
+  useEffect(() => {
+    setChecked(props.checkShort);
+    setQueryText(props.queryText);
+  }, [props.checkShort, props.queryText]);
 
   return (
     <section className="search-form">
@@ -14,12 +39,18 @@ function SearchForm(props) {
       <form
         name={props.formName}
         className="search-form__form"
-        onSubmit={props.onSubmit}
+        onSubmit={handleSubmit}
+        action="#"
+        noValidate
       >
         <div className="search-form__search-container">
           <input
+            value={queryText}
+            id="query-text-input"
+            name="query"
             className="search-form__input"
             type="text"
+            onChange={handleQuery}
             required
             placeholder={props.placeholder}
           ></input>
@@ -27,7 +58,7 @@ function SearchForm(props) {
             {props.buttonSubmitText}
           </button>
         </div>
-        <FilterCheckBox onChange={handleChange} />
+        <FilterCheckBox onChange={handleCheckBox} initCheck={checked} />
       </form>
     </section>
   );

@@ -10,18 +10,21 @@ function Register(props) {
   const [password, setPassword] = useState("");
 
   // состояние - были мы же в этом input или нет
-  const [userNameVisited, setUserNamevisited] = useState(false);
-  const [emailVisited, setEmailVisited] = useState(false);
-  const [passwordVisited, setPasswordVisited] = useState(false);
+  // const [userNameVisited, setUserNamevisited] = useState(false);
+  // const [emailVisited, setEmailVisited] = useState(false);
+  // const [passwordVisited, setPasswordVisited] = useState(false);
 
   // состояния с ошибками
-  const [nameError, setNameError] = useState("Поле Имя не должно быть пустым!");
-  const [emailError, setEmailError] = useState(
-    "Поле E-mail не должно быть пустым!"
-  );
-  const [passwordError, setPasswordError] = useState(
-    "Поле пароль не должно быть пустым!"
-  );
+  //const [nameError, setNameError] = useState("Поле Имя не должно быть пустым!");
+  const [nameError, setNameError] = useState("start");
+  // const [emailError, setEmailError] = useState(
+  //   "Поле E-mail не должно быть пустым!"
+  // );
+  const [emailError, setEmailError] = useState("start");
+  // const [passwordError, setPasswordError] = useState(
+  //   "Поле пароль не должно быть пустым!"
+  // );
+  const [passwordError, setPasswordError] = useState("start");
 
   // состояние валидности формы
   const [isValid, setIsValid] = useState(false);
@@ -30,27 +33,29 @@ function Register(props) {
   const emailInputRef = useRef();
 
   // реакция на event, когда пользователь покинул input
-  const handleBlur = (event) => {
-    switch (event.target.name) {
-      case "name":
-        setUserNamevisited(true);
-        break;
-      case "email":
-        setEmailVisited(true);
-        break;
-      case "password":
-        setPasswordVisited(true);
-        break;
-      default:
-        break;
-    }
-  };
+  // const handleBlur = (event) => {
+  //   switch (event.target.name) {
+  //     case "name":
+  //       setUserNamevisited(true);
+  //       break;
+  //     case "email":
+  //       setEmailVisited(true);
+  //       break;
+  //     case "password":
+  //       setPasswordVisited(true);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
   // Обрабочик ввода инфо в поле email
   const handleEmail = (event) => {
     const target = event.target;
     const value = target.value;
     setEmail(value);
+    // console.log("Email: " + value);
+
     // и здесь же валидацию реализуем - берем ее из Constraint Validation API
     if (emailInputRef.current.validationMessage) {
       setEmailError(`${"Email: "} ${emailInputRef.current.validationMessage}`);
@@ -64,7 +69,7 @@ function Register(props) {
     const target = event.target;
     const value = target.value;
     setUserName(value);
-    console.log("Имя: " + value);
+    //console.log("Имя: " + value);
 
     // валидируем поле самостоятельно
     if (!value) {
@@ -83,7 +88,7 @@ function Register(props) {
     // поле name содержит только латиницу, кириллицу, пробел или дефис
     const re = /^[а-яёА-ЯЁA-Za-z -]+$/gi;
     const res = re.test(String(value).toLowerCase());
-    console.log("Регулярка " + res);
+    // console.log("Регулярка " + res);
     if (!res) {
       setNameError(
         "Поле Имя должно содержать только латиницу, кириллицу, пробел или дефис!"
@@ -97,7 +102,7 @@ function Register(props) {
   const handlePassword = (event) => {
     const target = event.target;
     const value = target.value;
-    console.log("Имя: " + value);
+    // console.log("Пароль: " + value);
     setPassword(value);
     // валидируем поле самостоятельно
     if (!value) {
@@ -116,7 +121,7 @@ function Register(props) {
 
     const re = /^[a-zA-Z0-9!#$%&?]+$/gi;
     const res = re.test(String(value).toLowerCase());
-    console.log("Регулярка " + res);
+    // console.log("Регулярка " + res);
 
     if (!res) {
       setPasswordError(
@@ -132,14 +137,23 @@ function Register(props) {
     if (nameError || emailError || passwordError) {
       setIsValid(false);
     } else {
-      setIsValid(true);
+      if (
+        nameError === "start" ||
+        emailError === "start" ||
+        passwordError === "start"
+      ) {
+        setIsValid(false);
+      } else {
+        setIsValid(true);
+      }
     }
   }, [nameError, emailError, passwordError]);
 
+  // отправка запроса
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(event);
-    props.onRegister(userName, email, password);
+    // console.log(event);
+    props.onRegister(email, password, userName);
   };
 
   return (
@@ -160,11 +174,11 @@ function Register(props) {
               value={userName}
               name="name"
               placeholder="Введите Ваше имя"
-              minLenght={2}
-              maxLenght={40}
+              minLength={props.minLengthName}
+              maxLength={props.maxLengthName}
               required
               onChange={handleName}
-              onBlur={handleBlur}
+              //onBlur={handleBlur}
             />
           </label>
           <label className="form__field">
@@ -177,11 +191,9 @@ function Register(props) {
               name="email"
               ref={emailInputRef}
               placeholder="email"
-              minlenght="2"
-              maxlenght="200"
               required
               onChange={handleEmail}
-              onBlur={handleBlur}
+              //onBlur={handleBlur}
             />
           </label>
           <label className="form__field">
@@ -193,16 +205,16 @@ function Register(props) {
               value={password}
               name="password"
               placeholder="Пароль"
-              minlenght="8"
-              maxlenght="200"
+              minLength={props.minLengthPassword}
+              maxLength={props.maxLengthPassword}
               required
               onChange={handlePassword}
-              onBlur={handleBlur}
+              //onBlur={handleBlur}
             />
             <span className="form__input-error">
-              {`${userNameVisited ? nameError : ""} ${
-                emailVisited ? emailError : ""
-              } ${passwordVisited ? passwordError : ""}`}
+              {`${nameError !== "start" ? nameError : ""} ${
+                emailError !== "start" ? emailError : ""
+              } ${passwordError !== "start" ? passwordError : ""}`}
             </span>
           </label>
         </fieldset>

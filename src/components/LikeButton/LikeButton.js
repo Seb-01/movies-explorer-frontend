@@ -20,7 +20,7 @@ function LikeButton(props) {
     setIsLiked(!isLiked);
   }
 
-  console.log(props.card);
+  // console.log(props.card);
 
   return (
     <div>

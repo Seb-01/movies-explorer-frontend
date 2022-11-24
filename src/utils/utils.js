@@ -2,6 +2,10 @@
 //   URL: "https://api.nomoreparties.co",
 // };
 
+export const MOVIES_API_CONFIG_DEV = {
+  URL: "https://api.nomoreparties.co/beatfilm-movies",
+};
+
 export const MAIN_API_CONFIG_DEV = {
   URL: "http://localhost:3001",
 };
