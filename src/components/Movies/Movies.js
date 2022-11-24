@@ -133,9 +133,9 @@ function Movies(props) {
       />
       {isLoading && <Preloader />}
       {!isLoading && <MoviesCardList cards={cards} />}
-      <div className="movies__another-one-button-wrapper">
+      {/* <div className="movies__another-one-button-wrapper">
         <button className="movies__another-one-button">Еще</button>
-      </div>
+      </div> */}
       <Footer />
     </section>
   );

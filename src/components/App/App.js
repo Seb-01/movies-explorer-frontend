@@ -50,25 +50,25 @@ function App() {
 
   const history = useHistory();
 
-  // отслеживаем ширину экрана
-  useEffect(() => {
-    // Список действий внутри одного хука
-    window.addEventListener("resize", handleResize);
+  // // отслеживаем ширину экрана
+  // useEffect(() => {
+  //   // Список действий внутри одного хука
+  //   window.addEventListener("resize", handleResize);
 
-    // Возвращаем функцию, которая удаляет эффекты
-    // Такой возвращаемый колбэк обычно называется “cleanup” (от англ. «очистка»)
-    // чтобы «подчистить» результаты эффекта когда компонент будет размонтирован
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-    // Если у хука не указаны зависимости, он будет вызван после каждого рендера
-  });
+  //   // Возвращаем функцию, которая удаляет эффекты
+  //   // Такой возвращаемый колбэк обычно называется “cleanup” (от англ. «очистка»)
+  //   // чтобы «подчистить» результаты эффекта когда компонент будет размонтирован
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  //   // Если у хука не указаны зависимости, он будет вызван после каждого рендера
+  // }, []);
 
-  const handleResize = (event) => {
-    // Внутренний размер окна — это ширина и высота области просмотра (вьюпорта).
-    //console.log(window.innerWidth);
-    setScreenWide(window.innerWidth);
-  };
+  // const handleResize = (event) => {
+  //   // Внутренний размер окна — это ширина и высота области просмотра (вьюпорта).
+  //   console.log(window.innerWidth);
+  //   setScreenWide(window.innerWidth);
+  // };
 
   // переменные состояния, отвечающие за видимость попапов
   const [popups, setPopups] = useState({

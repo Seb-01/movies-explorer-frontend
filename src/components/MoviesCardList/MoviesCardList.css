@@ -43,3 +43,14 @@
     padding: 0 10px;
   }
 }
+
+.movies-card-list__another-one-button_disabled {
+  background: #F8F8F8;
+  color: #C2C2C2;
+  pointer-events: none;
+  cursor: default;
+}
+
+.movies-card-list__another-one-button_disabled:hover {
+  opacity: 1;
+}
