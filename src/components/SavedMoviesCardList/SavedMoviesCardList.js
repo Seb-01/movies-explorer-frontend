@@ -10,7 +10,6 @@ function SavedMoviesCardList(props) {
           key={i}
           card={item}
           onCardClick={props.onCardClick}
-          onCardLike={props.onCardLike}
           onCardDelete={props.onCardDelete}
         />
       ))}

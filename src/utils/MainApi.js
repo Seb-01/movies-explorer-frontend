@@ -97,44 +97,76 @@ export const updateUserProfile = (userNname, email) => {
   }).then((res) => checkResponse(res));
 };
 
-// export const getSavedNews = (token) => {
-//   return fetch(`${URL}/articles`, {
-//     method: "GET",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//   }).then((res) => checkResponse(res));
-// };
+/** Сохранить фильм
+ * передаnm в теле: country, director, duration, year, description,
+ * image, trailer, nameRU, nameEN и thumbnail, movieId
+ */
+export const saveMovie = (
+  country,
+  director,
+  duration,
+  year,
+  description,
+  image,
+  trailerLink,
+  thumbnail,
+  movieId,
+  nameRU,
+  nameEN
+) => {
+  const jwt = localStorage.getItem("jwt");
+  return (
+    fetch(`${URL}/movies`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify({
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailerLink,
+        thumbnail,
+        movieId,
+        nameRU,
+        nameEN,
+      }),
+    })
+      // выполнится, если промис исполнен. Аргумент - функция обработчик успешного выполнения промиса
+      .then((res) => checkResponse(res))
+  );
+};
 
-// export const addNewsCard = (newsArticle, token) => {
-//   return fetch(`${URL}/articles`, {
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//     body: JSON.stringify({
-//       keyword: newsArticle.keyword,
-//       title: newsArticle.title,
-//       text: newsArticle.description,
-//       date: newsArticle.publishedAt,
-//       source: newsArticle.source.name,
-//       link: newsArticle.url,
-//       image: newsArticle.urlToImage,
-//     }),
-//   }).then((res) => checkResponse(res));
-// };
+/** Получаем список сохраненных фильмов
+ *
+ *
+ */
+export const getSavedMovies = () => {
+  const jwt = localStorage.getItem("jwt");
+  return fetch(`${URL}/movies`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${jwt}`,
+    },
+  }).then((res) => checkResponse(res));
+};
 
-// export const removeCard = (id, token) => {
-//   return fetch(`${URL}/articles/${id}`, {
-//     method: "DELETE",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//   }).then((res) => checkResponse(res));
-// };
+// Удаляем фильм по id
+export const removeSavedMovie = (_id) => {
+  const jwt = localStorage.getItem("jwt");
+  return fetch(`${URL}/movies/${_id}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${jwt}`,
+    },
+  }).then((res) => checkResponse(res));
+};

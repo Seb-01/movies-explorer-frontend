@@ -10,8 +10,8 @@ function Profile(props) {
   //console.log(currentUser);
 
   // управляемые элементы полей input
-  const [userName, setUserName] = useState(currentUser.currentUser.name);
-  const [email, setEmail] = useState(currentUser.currentUser.email);
+  const [userName, setUserName] = useState(currentUser.name);
+  const [email, setEmail] = useState(currentUser.email);
 
   // делаем ссылочку на input email - браузерную валидиацию из поля будем брать!
   const emailInputRef = useRef();
@@ -41,10 +41,8 @@ function Profile(props) {
   const handleName = (event) => {
     const target = event.target;
     const value = target.value;
-    // currentUser.name = value;
-    setUserName(value);
-    // console.log("Имя: " + value);
 
+    setUserName(value);
     // валидируем поле самостоятельно
     if (!value) {
       setNameError("Поле Имя не должно быть пустым!");
@@ -91,9 +89,7 @@ function Profile(props) {
       <Header updateIsOpenPopupMenu={props.updateIsOpenPopupMenu} />
       <section className="form__profile-container">
         <form name={props.name} action="#" onSubmit={handleSubmit} noValidate>
-          <h2 className="form__profile-title">
-            Привет, {currentUser.currentUser.name}!
-          </h2>
+          <h2 className="form__profile-title">Привет, {currentUser.name}!</h2>
 
           <fieldset className="form__info">
             <label className="form__profile-field">

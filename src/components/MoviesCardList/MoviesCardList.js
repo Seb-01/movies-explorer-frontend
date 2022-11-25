@@ -9,6 +9,7 @@ function MoviesCardList(props) {
   // стейты для расчеты сетки с карточками:
   const [extraRows, setExtraRows] = useState(0);
   const [countExtraRows, setCountExtraRows] = useState(0);
+  const [stepRows, setStepRows] = useState(0);
   const [maxRows, setMaxRows] = useState(0);
   const [maxCols, setMaxCols] = useState(0);
 
@@ -31,18 +32,20 @@ function MoviesCardList(props) {
     console.log(window.innerWidth);
     //alert("window.innerWidth");
     setScreenWide(window.innerWidth);
+    console.log(`handleResize extraRows: ${extraRows}`);
   };
 
   // эффект, при изменении ширины экрана или карточек для показа
   useEffect(() => {
-    const { maxRows, maxCols, extraRows } = moviesCalculate(
+    const { maxRows, maxCols, extraRows, stepRows } = moviesCalculate(
       screenWide,
       props.cards.length
     );
     setMaxRows(maxRows);
     setMaxCols(maxCols);
     setExtraRows(extraRows);
-    console.log(`extraRows: ${extraRows}`);
+    setStepRows(stepRows);
+    setCountExtraRows(0);
 
     //setMoviesStore({ ...moviesStore, maxRows, maxCols, addedRows });
   }, [screenWide, props.cards.length]);
@@ -52,23 +55,29 @@ function MoviesCardList(props) {
     let maxRows = 0;
     let maxCols = 0;
     let extraRows = 0;
+    let stepRows = 0;
 
     // прописываем сетку в зависимости от ширины экрана
     if (screenWide >= 1280) {
       maxRows = 4;
       maxCols = 4;
+      stepRows = 1;
     } else if (screenWide < 1280 && screenWide >= 1020) {
       maxRows = 4;
       maxCols = 3;
+      stepRows = 1;
     } else if (screenWide < 1020 && screenWide >= 768) {
       maxRows = 4;
       maxCols = 2;
+      stepRows = 1;
     } else if (screenWide < 768 && screenWide >= 480) {
       maxRows = 5;
       maxCols = 1;
+      stepRows = 2;
     } else {
-      maxRows = 4;
+      maxRows = 5;
       maxCols = 1;
+      stepRows = 2;
     }
 
     // теперь рассчитываем addedRows
@@ -85,15 +94,19 @@ function MoviesCardList(props) {
           : extraRows;
       console.log(`extraRows: ${extraRows}`);
 
-      return { maxRows: maxRows, maxCols: maxCols, addedRows: extraRows };
+      return {
+        maxRows: maxRows,
+        maxCols: maxCols,
+        extraRows: extraRows,
+        stepRows: stepRows,
+      };
     }
   };
 
   // обработчик нажатия на кнопку
   const handleClick = (event) => {
-    if (countExtraRows < extraRows) setCountExtraRows(countExtraRows + 1);
-    console.log(`extraRows: ${extraRows}`);
-    console.log(`countExtraRows: ${countExtraRows}`);
+    if (countExtraRows < extraRows)
+      setCountExtraRows(countExtraRows + 1 * stepRows);
   };
 
   return (
@@ -106,6 +119,7 @@ function MoviesCardList(props) {
             <MoviesCard
               key={i}
               card={item}
+              isLiked={props.likes.includes(item.id) ? true : false}
               onCardClick={props.onCardClick}
               onCardLike={props.onCardLike}
               onCardDelete={props.onCardDelete}
@@ -115,8 +129,9 @@ function MoviesCardList(props) {
       <div className="movies-card-list__another-one-button-wrapper">
         <button
           className={`movies-card-list__another-one-button ${
-            // extraRows - countExtraRows
-            1 ? "" : "movies-card-list__another-one-button_disabled"
+            extraRows - countExtraRows
+              ? ""
+              : "movies-card-list__another-one-button_disabled"
           }`}
           onClick={handleClick}
         >

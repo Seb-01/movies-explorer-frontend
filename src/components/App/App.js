@@ -42,33 +42,13 @@ function App() {
     _id: "",
   });
 
-  // ширина экрана
-  const [screenWide, setScreenWide] = useState(0);
-
   // стейт-переменная со статусом пользователя - вошел в систему или нет?
   const [loggedIn, setLoggedIn] = useState(false);
 
+  // // переменная состояния, отвечающая за стейт данных о карточках
+  // const [cards, setCards] = useState([]);
+
   const history = useHistory();
-
-  // // отслеживаем ширину экрана
-  // useEffect(() => {
-  //   // Список действий внутри одного хука
-  //   window.addEventListener("resize", handleResize);
-
-  //   // Возвращаем функцию, которая удаляет эффекты
-  //   // Такой возвращаемый колбэк обычно называется “cleanup” (от англ. «очистка»)
-  //   // чтобы «подчистить» результаты эффекта когда компонент будет размонтирован
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  //   // Если у хука не указаны зависимости, он будет вызван после каждого рендера
-  // }, []);
-
-  // const handleResize = (event) => {
-  //   // Внутренний размер окна — это ширина и высота области просмотра (вьюпорта).
-  //   console.log(window.innerWidth);
-  //   setScreenWide(window.innerWidth);
-  // };
 
   // переменные состояния, отвечающие за видимость попапов
   const [popups, setPopups] = useState({
@@ -150,13 +130,10 @@ function App() {
   // разлогин пользователя
   const onLogout = () => {
     localStorage.removeItem("jwt");
+    // очищаем полностью?
+    // localStorage.clear();
     setLoggedIn(false);
     history.push("/signin");
-  };
-
-  // разлогин пользователя
-  const onSearch = () => {
-    alert("Поиск!");
   };
 
   // добавляем эффект, вызываемый при монтировании компонента: запрос в API данных пользователя
@@ -173,21 +150,61 @@ function App() {
           console.log(`Ошибка при запросе данных пользователя: ${err}!`);
         });
     }
-    //  else {
-    //   setCurrentUser({
-    //     name: "",
-    //     email: "",
-    //     _id: "",
-    //   });
-    // }
   }, [loggedIn]);
+
+  const handleCardClick = (trailerLink) => {
+    window.open(trailerLink);
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      tokenCheck();
+    }
+  }, []);
+
+  const tokenCheck = () => {
+    return (
+      getUserProfile()
+        // обрабатываем полученные данные и деструктурируем ответ от сервера, чтобы было понятнее, что пришло
+        .then((userData) => {
+          setCurrentUser(userData);
+          setLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log(`Ошибка при запросе данных пользователя: ${err}!`);
+        })
+    );
+  };
+
+  // Проверка токена
+  // function checkToken() {
+  //   // если у пользователя есть токен в localStorage, эта функция проверит валидность токена
+  //   const jwt = localStorage.getItem("jwt");
+  //   if (jwt) {
+  //     // apiAuth
+  //     api
+  //       .getContent(jwt)
+  //       .then((res) => {
+  //         // console.log(jwt);
+  //         // console.log(JSON.stringify(res));
+  //         if (res) {
+  //           // setUserEmail(res.data.email);
+  //           setUserEmail(res.email);
+  //           setLoggedIn(true);
+  //         }
+  //         history.push("/");
+  //       })
+  //       .catch((err) => {
+  //         console.log(`Ошибка при проверке токена: ${err}!`);
+  //       });
+  //   }
+  // }
 
   return (
     // внедряем общий контекст с помощью провайдера со значением стейта currentUser
     // Компонент Provider имеет пропс value со значением, которое нужно распространить всем дочерним элементам
-    <CurrentUserContext.Provider
-      value={{ currentUser: currentUser, screenWide: screenWide }}
-    >
+    <CurrentUserContext.Provider value={currentUser}>
       <main className="App">
         <Switch>
           <Route exact path="/">
@@ -206,36 +223,20 @@ function App() {
             <Portfolio />
             <Footer />
           </Route>
-          {/* <Route path="/movies">
-            <Movies updateIsOpenPopupMenu={updateIsOpenPopupMenu} />
-            <Footer />
-          </Route> */}
           <ProtectedRoute
             path="/movies"
             loggedIn={loggedIn}
             component={Movies}
-            onSearch={onSearch}
+            onCardClick={handleCardClick}
             updateIsOpenPopupMenu={updateIsOpenPopupMenu}
           />
-          {/* <Route path="/saved-movies">
-            <SavedMovies updateIsOpenPopupMenu={updateIsOpenPopupMenu} />
-            <Footer />
-          </Route> */}
           <ProtectedRoute
             path="/saved-movies"
             loggedIn={loggedIn}
             component={SavedMovies}
+            onCardClick={handleCardClick}
             updateIsOpenPopupMenu={updateIsOpenPopupMenu}
           />
-          {/* <Route path="/profile">
-            <Profile
-              title="Вячеслав"
-              buttonSubmitText="Редактировать"
-              updateIsOpenPopupMenu={updateIsOpenPopupMenu}
-              onUpdateUserProfile={onUpdateUserProfile}
-              onLogout={onLogout}
-            />
-          </Route> */}
           <ProtectedRoute
             component={Profile}
             path="/profile"
