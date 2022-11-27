@@ -12,12 +12,17 @@ function SavedMovies(props) {
   // переменная состояния, отвечающая за отображение прелоадера
   const [isLoading, setIsLoading] = useState(false);
   // переменная состояния, отвечающая за стейт поисковой строки
-  const [queryText, setQueryText] = useState("");
+  const [queryText, setQueryText] = useState(
+    localStorage.getItem("queryTextSaved")
+      ? JSON.parse(localStorage.getItem("queryTextSaved"))
+      : ""
+  );
   // переменная состояния, отвечающая за стейт чек-бокса
-  const [checkShort, setCheckShort] = useState(false);
-
-  console.log(`SavedMovies loggedIn: ${props.loggedIn}`);
-  console.log(`SavedMovies queryText: ${queryText}`);
+  const [checkShort, setCheckShort] = useState(
+    localStorage.getItem("queryTextSaved")
+      ? JSON.parse(localStorage.getItem("checkedSaved"))
+      : false
+  );
 
   // добавляем эффект, вызываемый при монтировании компонента, который будет совершать
   // запрос в API за сохраненными фильмами
@@ -28,7 +33,6 @@ function SavedMovies(props) {
       // обрабатываем полученные данные деструктурируем ответ от сервера, чтобы было понятнее, что пришло
       .then((cards) => {
         // карточки загружаем
-        console.log(`Загружены сохраненные карточки: ${[cards]}`);
         //setCardsSaved(cards);
 
         let showedCards = cards;
@@ -95,8 +99,6 @@ function SavedMovies(props) {
       // обрабатываем полученные данные деструктурируем ответ от сервера, чтобы было понятнее, что пришло
       .then((cards) => {
         // карточки загружаем
-        console.log(`Загружены сохраненные карточки: ${cards}`);
-
         // если поисковая строка не пустая и не включены короткометражки
         if (queryText.length !== 0 && !checkShort) {
           const searchText = queryText.toLowerCase();

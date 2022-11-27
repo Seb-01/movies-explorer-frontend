@@ -23,13 +23,16 @@ function Movies(props) {
   // переменная состояния, хранящая список карточек с поставленными лайками
   const [likes, setLikes] = useState([]);
   // переменная состояния, отвечающая за стейт поисковой строки
-  const [queryText, setQueryText] = useState("");
+  const [queryText, setQueryText] = useState(
+    localStorage.getItem("filteredMovies")
+      ? JSON.parse(localStorage.getItem("queryText"))
+      : ""
+  );
   // переменная состояния, отвечающая за стейт чек-бокса
-  const [checkShort, setCheckShort] = useState(false);
-
-  console.log(`Внутри Movies props.loggedIn: ${props.loggedIn}`);
-  console.log(
-    `Внутри Movies props.location.pathname: ${props.location.pathname}`
+  const [checkShort, setCheckShort] = useState(
+    localStorage.getItem("filteredMovies")
+      ? JSON.parse(localStorage.getItem("checked"))
+      : false
   );
 
   // эффект при монтировании компонента
