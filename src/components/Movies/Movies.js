@@ -26,6 +26,8 @@ function Movies(props) {
   // переменная состояния, отвечающая за стейт чек-бокса
   const [checkShort, setCheckShort] = useState(false);
 
+  console.log(props.loggedIn);
+
   // эффект при монтировании компонента
   useEffect(() => {
     //здесь просто выгружаем сохраненное состояние на момент размонтирования компонента!

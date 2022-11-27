@@ -50,6 +50,8 @@ function App() {
 
   const history = useHistory();
 
+  const { pathname } = useLocation();
+
   // переменные состояния, отвечающие за видимость попапов
   const [popups, setPopups] = useState({
     isPopupMenuOpen: false,
@@ -226,6 +228,7 @@ function App() {
           <ProtectedRoute
             path="/movies"
             loggedIn={loggedIn}
+            location={pathname}
             component={Movies}
             onCardClick={handleCardClick}
             updateIsOpenPopupMenu={updateIsOpenPopupMenu}
@@ -233,6 +236,7 @@ function App() {
           <ProtectedRoute
             path="/saved-movies"
             loggedIn={loggedIn}
+            location={pathname}
             component={SavedMovies}
             onCardClick={handleCardClick}
             updateIsOpenPopupMenu={updateIsOpenPopupMenu}
@@ -241,6 +245,7 @@ function App() {
             component={Profile}
             path="/profile"
             loggedIn={loggedIn}
+            location={pathname}
             buttonSubmitText="Редактировать"
             updateIsOpenPopupMenu={updateIsOpenPopupMenu}
             onUpdateUserProfile={onUpdateUserProfile}
