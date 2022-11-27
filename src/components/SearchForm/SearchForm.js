@@ -1,13 +1,12 @@
 import "./SearchForm.css";
 import FilterCheckBox from "../FilterCheckbox/FilterCheckbox";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 function SearchForm(props) {
   // стейт отслеживающий чек-бокс
   const [checked, setChecked] = React.useState(props.checkShort);
   // управляемый элемент input
   const [queryText, setQueryText] = useState(props.queryText);
-  console.log(`SearchForm получил входной чек: ${props.checkShort}`);
 
   // обработчик чек-бокса
   const handleCheckBox = (newCheked) => {

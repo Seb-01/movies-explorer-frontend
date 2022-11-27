@@ -16,7 +16,6 @@ import Portfolio from "../Portfolio/Portfolio";
 import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
-import Header from "../Header/Header";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
@@ -29,7 +28,6 @@ import PopupMenu from "../PopupMenu/PopupMenu";
 import {
   register,
   login,
-  getUserProfile,
   updateUserProfile,
   getContent,
 } from "../../utils/MainApi";
@@ -164,12 +162,8 @@ function App() {
           if (userData) {
             // здесь можем получить данные пользователя!
             setCurrentUser(userData);
-            console.log(`Данные пользователя: ${userData.name}`);
-            console.log(`Данные пользователя: ${userData.email}`);
             // авторизуем пользователя
-            console.log(`Проверяем loggedIn: ${loggedIn}`);
             setLoggedIn(true);
-            console.log(`Проверяем loggedIn: ${loggedIn}`);
             // if (pathname === "/signin") history.push("/movies");
             // else history.push(pathname);
           }

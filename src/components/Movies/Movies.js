@@ -19,7 +19,13 @@ function Movies(props) {
   // переменная состояния, отвечающая за отображение прелоадера
   const [isLoading, setIsLoading] = useState(false);
   // переменная состояния, отвечающая за стейт данных о карточках
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState(
+    localStorage.getItem("filteredMovies")
+      ? JSON.parse(localStorage.getItem("filteredMovies"))
+      : localStorage.getItem("moviesStorage")
+      ? JSON.parse(localStorage.getItem("moviesStorage"))
+      : []
+  );
   // переменная состояния, хранящая список карточек с поставленными лайками
   const [likes, setLikes] = useState([]);
   // переменная состояния, отвечающая за стейт поисковой строки
@@ -47,7 +53,6 @@ function Movies(props) {
         if (res) {
           // сохраняем данные в локальном хранилище
           localStorage.setItem("moviesStorage", JSON.stringify(res));
-          console.log(JSON.parse(localStorage.getItem("moviesStorage")));
         }
       })
       .catch((err) => {
@@ -84,7 +89,6 @@ function Movies(props) {
       setCards(JSON.parse(localStorage.getItem("moviesStorage")));
     }
     setIsLoading(false);
-    console.log();
     //здесь также возвращаем функцию, которая "подметет" все при демонтаже
     //нужно будет сложить в localStorage отфильтрованные фильмы, поисковый запрос и положение чек-бокса
   }, []);
@@ -107,18 +111,11 @@ function Movies(props) {
       localStorage.setItem("checked", JSON.stringify(checkShort));
       localStorage.setItem("queryText", JSON.stringify(queryText));
 
-      console.log(queryText);
-      console.log(checkShort);
-
       const movies = JSON.parse(localStorage.getItem("moviesStorage"));
-      console.log(movies);
-
       const searchText = queryText.toLowerCase();
-      console.log(searchText);
       const filteredMovies = movies.filter((item) => {
         return item.nameRU.toLowerCase().includes(searchText);
       });
-      console.log(searchText);
 
       setCards(filteredMovies);
       localStorage.setItem("filteredMovies", JSON.stringify(filteredMovies));
@@ -145,9 +142,6 @@ function Movies(props) {
       //сохраняем новые значения запроса и чек-бокса в localStorage
       localStorage.setItem("checked", JSON.stringify(checkShort));
       localStorage.setItem("queryText", JSON.stringify(queryText));
-
-      console.log(queryText);
-      console.log(checkShort);
 
       const movies = JSON.parse(localStorage.getItem("moviesStorage"));
       setCards(movies);

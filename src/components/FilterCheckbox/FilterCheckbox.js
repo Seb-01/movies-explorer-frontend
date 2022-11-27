@@ -3,11 +3,9 @@ import React, { useEffect } from "react";
 
 function FilterCheckBox(props) {
   const [isChecked, setIsChecked] = React.useState(props.initCheck);
-  console.log(`FilterCheckBox получил входной чек: ${props.initCheck}`);
 
   const handleChange = (event) => {
     setIsChecked(!isChecked);
-    console.log(`FilterCheckBox. Меня нажали и я становлюсь: ${!isChecked}`);
     props.onChange(!isChecked);
   };
 
