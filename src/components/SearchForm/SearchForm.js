@@ -12,7 +12,6 @@ function SearchForm(props) {
   // обработчик чек-бокса
   const handleCheckBox = (newCheked) => {
     setChecked(newCheked);
-    alert(`SearchForm: ${newCheked}!`);
   };
 
   //обрабочки ввода в поле input
