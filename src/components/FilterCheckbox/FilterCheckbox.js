@@ -2,12 +2,13 @@ import "./FilterCheckbox.css";
 import React, { useEffect } from "react";
 
 function FilterCheckBox(props) {
-  const [isChecked, setIsChecked] = React.useState(false);
+  const [isChecked, setIsChecked] = React.useState(props.initCheck);
+  console.log(`FilterCheckBox получил входной чек: ${props.initCheck}`);
 
   const handleChange = (event) => {
     setIsChecked(!isChecked);
-    alert(`FilterCheckBox: ${isChecked}!`);
-    props.onChange();
+    console.log(`FilterCheckBox. Меня нажали и я становлюсь: ${!isChecked}`);
+    props.onChange(!isChecked);
   };
 
   useEffect(() => {

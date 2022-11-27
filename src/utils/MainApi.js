@@ -77,6 +77,20 @@ export const getUserProfile = () => {
   }).then((res) => checkResponse(res));
 };
 
+//чтобы проверить токен и получить данные пользователя
+export const getContent = (token) => {
+  return fetch(`${URL}/users/me`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => checkResponse(res))
+    .then((data) => data);
+};
+
 /** Метод для обновления профиля пользователя
  *
  */

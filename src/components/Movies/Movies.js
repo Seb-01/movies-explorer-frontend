@@ -11,6 +11,7 @@ import {
   saveMovie,
   removeSavedMovie,
   getSavedMovies,
+  login,
 } from "../../utils/MainApi";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 
@@ -26,12 +27,16 @@ function Movies(props) {
   // переменная состояния, отвечающая за стейт чек-бокса
   const [checkShort, setCheckShort] = useState(false);
 
-  console.log(props.loggedIn);
+  console.log(`Внутри Movies props.loggedIn: ${props.loggedIn}`);
+  console.log(
+    `Внутри Movies props.location.pathname: ${props.location.pathname}`
+  );
 
   // эффект при монтировании компонента
   useEffect(() => {
     //здесь просто выгружаем сохраненное состояние на момент размонтирования компонента!
     // обновляем фильмы с сервера каждый раз - вдруг что-то новенькое)
+    setIsLoading(true);
     getMovies()
       // здесь уже данные от сервера пришли!
       .then((res) => {
@@ -39,6 +44,7 @@ function Movies(props) {
         if (res) {
           // сохраняем данные в локальном хранилище
           localStorage.setItem("moviesStorage", JSON.stringify(res));
+          console.log(JSON.parse(localStorage.getItem("moviesStorage")));
         }
       })
       .catch((err) => {
@@ -66,12 +72,16 @@ function Movies(props) {
       const recentMovies = JSON.parse(localStorage.getItem("filteredMovies"));
       const recentQueryText = JSON.parse(localStorage.getItem("queryText"));
       const recentcheckShort = JSON.parse(localStorage.getItem("checked"));
+      // перезаписываем карточки для показа
       setCards(recentMovies);
       setQueryText(recentQueryText);
       setCheckShort(recentcheckShort);
       setIsLoading(false);
+    } else {
+      setCards(JSON.parse(localStorage.getItem("moviesStorage")));
     }
-
+    setIsLoading(false);
+    console.log();
     //здесь также возвращаем функцию, которая "подметет" все при демонтаже
     //нужно будет сложить в localStorage отфильтрованные фильмы, поисковый запрос и положение чек-бокса
   }, []);
@@ -110,26 +120,51 @@ function Movies(props) {
       setCards(filteredMovies);
       localStorage.setItem("filteredMovies", JSON.stringify(filteredMovies));
       setIsLoading(false);
-    } else {
-      if (queryText.length !== 0 && checkShort) {
-        localStorage.setItem("checked", JSON.stringify(checkShort));
-        localStorage.setItem("queryText", JSON.stringify(queryText));
+    } else if (queryText.length !== 0 && checkShort) {
+      localStorage.setItem("checked", JSON.stringify(checkShort));
+      localStorage.setItem("queryText", JSON.stringify(queryText));
 
-        const movies = JSON.parse(localStorage.getItem("moviesStorage"));
-        const searchText = queryText.toLowerCase();
-        const filteredMovies = movies.filter((item) => {
-          return item.nameRU.toLowerCase().includes(searchText);
-        });
-        const shortFilteredMovies = filteredMovies.filter((item) => {
-          return item.duration <= 40;
-        });
-        setCards(shortFilteredMovies);
-        localStorage.setItem(
-          "filteredMovies",
-          JSON.stringify(shortFilteredMovies)
-        );
-        setIsLoading(false);
-      }
+      const movies = JSON.parse(localStorage.getItem("moviesStorage"));
+      const searchText = queryText.toLowerCase();
+      const filteredMovies = movies.filter((item) => {
+        return item.nameRU.toLowerCase().includes(searchText);
+      });
+      const shortFilteredMovies = filteredMovies.filter((item) => {
+        return item.duration <= 40;
+      });
+      setCards(shortFilteredMovies);
+      localStorage.setItem(
+        "filteredMovies",
+        JSON.stringify(shortFilteredMovies)
+      );
+      setIsLoading(false);
+    } else if (queryText.length === 0 && !checkShort) {
+      //сохраняем новые значения запроса и чек-бокса в localStorage
+      localStorage.setItem("checked", JSON.stringify(checkShort));
+      localStorage.setItem("queryText", JSON.stringify(queryText));
+
+      console.log(queryText);
+      console.log(checkShort);
+
+      const movies = JSON.parse(localStorage.getItem("moviesStorage"));
+      setCards(movies);
+      localStorage.setItem("filteredMovies", []);
+      setIsLoading(false);
+    } else {
+      // показываем ВСЕ коротометражки
+      localStorage.setItem("checked", JSON.stringify(checkShort));
+      localStorage.setItem("queryText", JSON.stringify(queryText));
+
+      const movies = JSON.parse(localStorage.getItem("moviesStorage"));
+      const shortFilteredMovies = movies.filter((item) => {
+        return item.duration <= 40;
+      });
+      setCards(shortFilteredMovies);
+      localStorage.setItem(
+        "filteredMovies",
+        JSON.stringify(shortFilteredMovies)
+      );
+      setIsLoading(false);
     }
   }, [queryText, checkShort]);
 
@@ -161,14 +196,25 @@ function Movies(props) {
     } else {
       // удаляем фильм!
       //вначале нужно получить _id этого фильма в БД сохраненных
-      removeSavedMovie(card.id)
-        .then((newCard) => {
-          console.log("Фильм успешно удален!");
-          // удаляем id карточки из списка лайкнутых
-          setLikes((likes) => likes.filter((id) => id !== card.id));
+      getSavedMovies()
+        // обрабатываем полученные данные деструктурируем ответ от сервера, чтобы было понятнее, что пришло
+        .then((cards) => {
+          const nameMovie = card.nameRU.toLowerCase();
+          const deletedCard = cards.filter((item) => {
+            return item.movieId === card.id;
+          });
+          removeSavedMovie(deletedCard[0]._id)
+            .then((newCard) => {
+              console.log("Фильм успешно удален!");
+              // удаляем id карточки из списка лайкнутых
+              setLikes((likes) => likes.filter((id) => id !== card.id));
+            })
+            .catch((err) => {
+              console.log(`Ошибка при удалении фильма: ${err}!`);
+            });
         })
         .catch((err) => {
-          console.log(`Ошибка при удалении фильма: ${err}!`);
+          console.log(`Ошибка при запросе сохраненных фильмов: ${err}!`);
         });
     }
   };
@@ -183,7 +229,7 @@ function Movies(props) {
         onSearch={moviesSearch}
       />
       {isLoading && <Preloader />}
-      {!isLoading && (
+      {!isLoading && cards && (
         <MoviesCardList
           cards={cards}
           likes={likes}

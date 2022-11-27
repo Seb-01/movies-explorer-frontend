@@ -4,16 +4,16 @@ import React, { useEffect, useState } from "react";
 
 function SearchForm(props) {
   // стейт отслеживающий чек-бокс
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = React.useState(props.checkShort);
+  // управляемый элемент input
+  const [queryText, setQueryText] = useState(props.queryText);
+  console.log(`SearchForm получил входной чек: ${props.checkShort}`);
 
   // обработчик чек-бокса
-  const handleCheckBox = () => {
-    setChecked(!checked);
-    alert(`SearchForm: ${checked}!`);
+  const handleCheckBox = (newCheked) => {
+    setChecked(newCheked);
+    alert(`SearchForm: ${newCheked}!`);
   };
-
-  // управляемый элемент input
-  const [queryText, setQueryText] = useState("");
 
   //обрабочки ввода в поле input
   const handleQuery = (event) => {
@@ -27,11 +27,6 @@ function SearchForm(props) {
     event.preventDefault();
     props.onSearch(queryText, checked);
   };
-
-  useEffect(() => {
-    setChecked(props.checkShort);
-    setQueryText(props.queryText);
-  }, [props.checkShort, props.queryText]);
 
   return (
     <section className="search-form">

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { withRouter } from "react-router";
 import {
   Route,
   Switch,
@@ -30,6 +31,7 @@ import {
   login,
   getUserProfile,
   updateUserProfile,
+  getContent,
 } from "../../utils/MainApi";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -43,7 +45,9 @@ function App() {
   });
 
   // стейт-переменная со статусом пользователя - вошел в систему или нет?
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(
+    localStorage.getItem("jwt") ? true : false
+  );
 
   // // переменная состояния, отвечающая за стейт данных о карточках
   // const [cards, setCards] = useState([]);
@@ -133,75 +137,48 @@ function App() {
   const onLogout = () => {
     localStorage.removeItem("jwt");
     // очищаем полностью?
-    // localStorage.clear();
+    localStorage.clear();
     setLoggedIn(false);
     history.push("/signin");
   };
-
-  // добавляем эффект, вызываемый при монтировании компонента: запрос в API данных пользователя
-  useEffect(() => {
-    if (loggedIn) {
-      getUserProfile()
-        // обрабатываем полученные данные и деструктурируем ответ от сервера, чтобы было понятнее, что пришло
-        .then((userData) => {
-          // меняем currentUser пользователя
-          // console.log(userData);
-          setCurrentUser(userData);
-        })
-        .catch((err) => {
-          console.log(`Ошибка при запросе данных пользователя: ${err}!`);
-        });
-    }
-  }, [loggedIn]);
 
   const handleCardClick = (trailerLink) => {
     window.open(trailerLink);
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      tokenCheck();
-    }
+    console.log(`Монтирую App, pathname: ${pathname}`);
+    tokenCheck();
+    //history.push(pathname);
   }, []);
 
+  // проверка токена
   const tokenCheck = () => {
-    return (
-      getUserProfile()
-        // обрабатываем полученные данные и деструктурируем ответ от сервера, чтобы было понятнее, что пришло
+    // если у пользователя есть токен в localStorage,
+    // эта функция проверит валидность токена
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      // проверим токен
+      getContent(jwt)
         .then((userData) => {
-          setCurrentUser(userData);
-          setLoggedIn(true);
+          if (userData) {
+            // здесь можем получить данные пользователя!
+            setCurrentUser(userData);
+            console.log(`Данные пользователя: ${userData.name}`);
+            console.log(`Данные пользователя: ${userData.email}`);
+            // авторизуем пользователя
+            console.log(`Проверяем loggedIn: ${loggedIn}`);
+            setLoggedIn(true);
+            console.log(`Проверяем loggedIn: ${loggedIn}`);
+            // if (pathname === "/signin") history.push("/movies");
+            // else history.push(pathname);
+          }
         })
         .catch((err) => {
           console.log(`Ошибка при запросе данных пользователя: ${err}!`);
-        })
-    );
+        });
+    }
   };
-
-  // Проверка токена
-  // function checkToken() {
-  //   // если у пользователя есть токен в localStorage, эта функция проверит валидность токена
-  //   const jwt = localStorage.getItem("jwt");
-  //   if (jwt) {
-  //     // apiAuth
-  //     api
-  //       .getContent(jwt)
-  //       .then((res) => {
-  //         // console.log(jwt);
-  //         // console.log(JSON.stringify(res));
-  //         if (res) {
-  //           // setUserEmail(res.data.email);
-  //           setUserEmail(res.email);
-  //           setLoggedIn(true);
-  //         }
-  //         history.push("/");
-  //       })
-  //       .catch((err) => {
-  //         console.log(`Ошибка при проверке токена: ${err}!`);
-  //       });
-  //   }
-  // }
 
   return (
     // внедряем общий контекст с помощью провайдера со значением стейта currentUser
@@ -228,7 +205,7 @@ function App() {
           <ProtectedRoute
             path="/movies"
             loggedIn={loggedIn}
-            location={pathname}
+            // location={pathname}
             component={Movies}
             onCardClick={handleCardClick}
             updateIsOpenPopupMenu={updateIsOpenPopupMenu}
@@ -236,7 +213,7 @@ function App() {
           <ProtectedRoute
             path="/saved-movies"
             loggedIn={loggedIn}
-            location={pathname}
+            // location={pathname}
             component={SavedMovies}
             onCardClick={handleCardClick}
             updateIsOpenPopupMenu={updateIsOpenPopupMenu}
@@ -286,4 +263,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRouter(App);
