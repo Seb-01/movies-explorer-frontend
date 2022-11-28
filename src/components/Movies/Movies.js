@@ -19,9 +19,12 @@ function Movies(props) {
   // переменная состояния, отвечающая за отображение прелоадера
   const [isLoading, setIsLoading] = useState(true);
   // переменная состояния, отвечающая за поиск
-  const [isFirstSearch, setIsFirstSearch] = useState(true);
+  const [isFirstSearch, setIsFirstSearch] = useState(
+    localStorage.getItem("isFirstSearch")
+      ? JSON.parse(localStorage.getItem("isFirstSearch"))
+      : true
+  );
   // переменная состояния, отвечающая за стейт данных о карточках
-  // const [cards, setCards] = useState([]);
   const [cards, setCards] = useState(
     localStorage.getItem("filteredMovies")
       ? JSON.parse(localStorage.getItem("filteredMovies"))
@@ -32,7 +35,6 @@ function Movies(props) {
   // переменная состояния, хранящая список карточек с поставленными лайками
   const [likes, setLikes] = useState([]);
   // переменная состояния, отвечающая за стейт поисковой строки
-  // const [queryText, setQueryText] = useState("");
   const [queryText, setQueryText] = useState(
     localStorage.getItem("filteredMovies")
       ? JSON.parse(localStorage.getItem("queryText"))
@@ -46,68 +48,13 @@ function Movies(props) {
       : false
   );
 
-  // // эффект при монтировании компонента
-  // useEffect(() => {
-  //   //здесь просто выгружаем сохраненное состояние на момент размонтирования компонента!
-  //   // обновляем фильмы с сервера каждый раз - вдруг что-то новенькое)
-  //   setIsLoading(true);
-  //   getMovies()
-  //     // здесь уже данные от сервера пришли!
-  //     .then((res) => {
-  //       // console.log(res);
-  //       if (res) {
-  //         // сохраняем данные в локальном хранилище
-  //         localStorage.setItem("moviesStorage", JSON.stringify(res));
-  //         setCards(res);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(`Ошибка при зарузке фильмов: ${err}!`);
-  //     });
-
-  //   // инициализируем список id фильмов с лайками = все те, которые есть в сохраненных
-  //   getSavedMovies()
-  //     // обрабатываем полученные данные деструктурируем ответ от сервера, чтобы было понятнее, что пришло
-  //     .then((cards) => {
-  //       // карточки загружаем
-  //       setLikes(
-  //         cards.map((card) => {
-  //           return card.movieId;
-  //         })
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       console.log(`Ошибка при запросе сохраненных фильмов: ${err}!`);
-  //     });
-
-  //   //проверяем сохраненные ранее отфильтрованные фильмы и если есть восстанавливаем стейты!
-  //   if (localStorage.getItem("filteredMovies")) {
-  //     setIsLoading(true);
-  //     const recentMovies = JSON.parse(localStorage.getItem("filteredMovies"));
-  //     const recentQueryText = JSON.parse(localStorage.getItem("queryText"));
-  //     const recentcheckShort = JSON.parse(localStorage.getItem("checked"));
-  //     // перезаписываем карточки для показа
-  //     setCards(recentMovies);
-  //     setQueryText(recentQueryText);
-  //     setCheckShort(recentcheckShort);
-  //     setIsLoading(false);
-  //   } else {
-  //     setCards(JSON.parse(localStorage.getItem("moviesStorage")));
-  //   }
-  //   setIsLoading(false);
-  //   //здесь также возвращаем функцию, которая "подметет" все при демонтаже
-  //   //нужно будет сложить в localStorage отфильтрованные фильмы, поисковый запрос и положение чек-бокса
-  // }, []);
-
   // эффект при монтировании компонента
   useEffect(() => {
-    console.log("я в useEffect!");
-    setIsLoading(true);
     //если запроса еще не было!
     if (isFirstSearch) {
+      setIsLoading(true);
       //здесь просто выгружаем сохраненное состояние на момент размонтирования компонента!
       // обновляем фильмы с сервера каждый раз - вдруг что-то новенькое)
-      console.log("я внутри useEffect!");
       getMovies()
         // здесь уже данные от сервера пришли!
         .then((res) => {
@@ -121,21 +68,6 @@ function Movies(props) {
         .catch((err) => {
           console.log(`Ошибка при зарузке фильмов: ${err}!`);
         });
-
-      // инициализируем список id фильмов с лайками = все те, которые есть в сохраненных
-      getSavedMovies()
-        // обрабатываем полученные данные деструктурируем ответ от сервера, чтобы было понятнее, что пришло
-        .then((cards) => {
-          // карточки загружаем
-          setLikes(
-            cards.map((card) => {
-              return card.movieId;
-            })
-          );
-        })
-        .catch((err) => {
-          console.log(`Ошибка при запросе сохраненных фильмов: ${err}!`);
-        });
     } else {
       // запрос уже был отработан
       //проверяем сохраненные ранее отфильтрованные фильмы и если есть восстанавливаем стейты!
@@ -144,14 +76,31 @@ function Movies(props) {
         const recentMovies = JSON.parse(localStorage.getItem("filteredMovies"));
         const recentQueryText = JSON.parse(localStorage.getItem("queryText"));
         const recentcheckShort = JSON.parse(localStorage.getItem("checked"));
+
         // перезаписываем карточки для показа
         setCards(recentMovies);
         setQueryText(recentQueryText);
         setCheckShort(recentcheckShort);
-        //setIsLoading(false);
+        setIsLoading(false);
       }
     }
-    setIsLoading(false);
+
+    // инициализируем список id фильмов с лайками = все те, которые есть в сохраненных
+    getSavedMovies()
+      // обрабатываем полученные данные деструктурируем ответ от сервера, чтобы было понятнее, что пришло
+      .then((cards) => {
+        // карточки загружаем
+        // сохраняем данные в локальном хранилище
+        setLikes(
+          cards.map((card) => {
+            return card.movieId;
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(`Ошибка при запросе сохраненных фильмов: ${err}!`);
+      });
+    //setIsLoading(false);
     //здесь также возвращаем функцию, которая "подметет" все при демонтаже
     //нужно будет сложить в localStorage отфильтрованные фильмы, поисковый запрос и положение чек-бокса
     // return () => {
@@ -171,13 +120,16 @@ function Movies(props) {
 
   //обработчик submit в SearchForm
   const moviesSearch = (newQueryText, newCheckShort) => {
-    setIsFirstSearch(false);
     //обновляем стейты - пусть выполняются потихоньку...
     setIsLoading(true);
     setQueryText(newQueryText);
     setCheckShort(newCheckShort);
     localStorage.setItem("checked", JSON.stringify(newCheckShort));
     localStorage.setItem("queryText", JSON.stringify(newQueryText));
+    if (isFirstSearch) {
+      localStorage.setItem("isFirstSearch", JSON.stringify(false));
+      setIsFirstSearch(false);
+    }
 
     // если поисковая строка не пустая и не включены короткометражки
     if (newQueryText.length !== 0 && !newCheckShort) {
@@ -209,7 +161,7 @@ function Movies(props) {
       //сохраняем новые значения запроса и чек-бокса в localStorage
       const movies = JSON.parse(localStorage.getItem("moviesStorage"));
       setCards(movies);
-      localStorage.setItem("filteredMovies", []);
+      //localStorage.setItem("filteredMovies", JSON.stringify(movies));
       setIsLoading(false);
     } else {
       // показываем ВСЕ коротометражки

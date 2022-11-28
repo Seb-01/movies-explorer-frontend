@@ -2,7 +2,7 @@ import React from "react";
 import "./TrashButton.css";
 
 function TrashButton(props) {
-  console.log(props.card);
+  //console.log(props.card);
 
   const handleButtonClick = (event) => {
     props.onCardDelete(props.card);
