@@ -17,8 +17,11 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 function Movies(props) {
   // переменная состояния, отвечающая за отображение прелоадера
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  // переменная состояния, отвечающая за поиск
+  const [isFirstSearch, setIsFirstSearch] = useState(true);
   // переменная состояния, отвечающая за стейт данных о карточках
+  // const [cards, setCards] = useState([]);
   const [cards, setCards] = useState(
     localStorage.getItem("filteredMovies")
       ? JSON.parse(localStorage.getItem("filteredMovies"))
@@ -29,104 +32,167 @@ function Movies(props) {
   // переменная состояния, хранящая список карточек с поставленными лайками
   const [likes, setLikes] = useState([]);
   // переменная состояния, отвечающая за стейт поисковой строки
+  // const [queryText, setQueryText] = useState("");
   const [queryText, setQueryText] = useState(
     localStorage.getItem("filteredMovies")
       ? JSON.parse(localStorage.getItem("queryText"))
       : ""
   );
   // переменная состояния, отвечающая за стейт чек-бокса
+  // const [checkShort, setCheckShort] = useState(false);
   const [checkShort, setCheckShort] = useState(
     localStorage.getItem("filteredMovies")
       ? JSON.parse(localStorage.getItem("checked"))
       : false
   );
 
+  // // эффект при монтировании компонента
+  // useEffect(() => {
+  //   //здесь просто выгружаем сохраненное состояние на момент размонтирования компонента!
+  //   // обновляем фильмы с сервера каждый раз - вдруг что-то новенькое)
+  //   setIsLoading(true);
+  //   getMovies()
+  //     // здесь уже данные от сервера пришли!
+  //     .then((res) => {
+  //       // console.log(res);
+  //       if (res) {
+  //         // сохраняем данные в локальном хранилище
+  //         localStorage.setItem("moviesStorage", JSON.stringify(res));
+  //         setCards(res);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(`Ошибка при зарузке фильмов: ${err}!`);
+  //     });
+
+  //   // инициализируем список id фильмов с лайками = все те, которые есть в сохраненных
+  //   getSavedMovies()
+  //     // обрабатываем полученные данные деструктурируем ответ от сервера, чтобы было понятнее, что пришло
+  //     .then((cards) => {
+  //       // карточки загружаем
+  //       setLikes(
+  //         cards.map((card) => {
+  //           return card.movieId;
+  //         })
+  //       );
+  //     })
+  //     .catch((err) => {
+  //       console.log(`Ошибка при запросе сохраненных фильмов: ${err}!`);
+  //     });
+
+  //   //проверяем сохраненные ранее отфильтрованные фильмы и если есть восстанавливаем стейты!
+  //   if (localStorage.getItem("filteredMovies")) {
+  //     setIsLoading(true);
+  //     const recentMovies = JSON.parse(localStorage.getItem("filteredMovies"));
+  //     const recentQueryText = JSON.parse(localStorage.getItem("queryText"));
+  //     const recentcheckShort = JSON.parse(localStorage.getItem("checked"));
+  //     // перезаписываем карточки для показа
+  //     setCards(recentMovies);
+  //     setQueryText(recentQueryText);
+  //     setCheckShort(recentcheckShort);
+  //     setIsLoading(false);
+  //   } else {
+  //     setCards(JSON.parse(localStorage.getItem("moviesStorage")));
+  //   }
+  //   setIsLoading(false);
+  //   //здесь также возвращаем функцию, которая "подметет" все при демонтаже
+  //   //нужно будет сложить в localStorage отфильтрованные фильмы, поисковый запрос и положение чек-бокса
+  // }, []);
+
   // эффект при монтировании компонента
   useEffect(() => {
-    //здесь просто выгружаем сохраненное состояние на момент размонтирования компонента!
-    // обновляем фильмы с сервера каждый раз - вдруг что-то новенькое)
+    console.log("я в useEffect!");
     setIsLoading(true);
-    getMovies()
-      // здесь уже данные от сервера пришли!
-      .then((res) => {
-        // console.log(res);
-        if (res) {
-          // сохраняем данные в локальном хранилище
-          localStorage.setItem("moviesStorage", JSON.stringify(res));
-          setCards(res);
-        }
-      })
-      .catch((err) => {
-        console.log(`Ошибка при зарузке фильмов: ${err}!`);
-      });
+    //если запроса еще не было!
+    if (isFirstSearch) {
+      //здесь просто выгружаем сохраненное состояние на момент размонтирования компонента!
+      // обновляем фильмы с сервера каждый раз - вдруг что-то новенькое)
+      console.log("я внутри useEffect!");
+      getMovies()
+        // здесь уже данные от сервера пришли!
+        .then((res) => {
+          // console.log(res);
+          if (res) {
+            // сохраняем данные в локальном хранилище
+            localStorage.setItem("moviesStorage", JSON.stringify(res));
+            //setCards(res);
+          }
+        })
+        .catch((err) => {
+          console.log(`Ошибка при зарузке фильмов: ${err}!`);
+        });
 
-    // инициализируем список id фильмов с лайками = все те, которые есть в сохраненных
-    getSavedMovies()
-      // обрабатываем полученные данные деструктурируем ответ от сервера, чтобы было понятнее, что пришло
-      .then((cards) => {
-        // карточки загружаем
-        setLikes(
-          cards.map((card) => {
-            return card.movieId;
-          })
-        );
-      })
-      .catch((err) => {
-        console.log(`Ошибка при запросе сохраненных фильмов: ${err}!`);
-      });
-
-    //проверяем сохраненные ранее отфильтрованные фильмы и если есть восстанавливаем стейты!
-    if (localStorage.getItem("filteredMovies")) {
-      setIsLoading(true);
-      const recentMovies = JSON.parse(localStorage.getItem("filteredMovies"));
-      const recentQueryText = JSON.parse(localStorage.getItem("queryText"));
-      const recentcheckShort = JSON.parse(localStorage.getItem("checked"));
-      // перезаписываем карточки для показа
-      setCards(recentMovies);
-      setQueryText(recentQueryText);
-      setCheckShort(recentcheckShort);
-      setIsLoading(false);
+      // инициализируем список id фильмов с лайками = все те, которые есть в сохраненных
+      getSavedMovies()
+        // обрабатываем полученные данные деструктурируем ответ от сервера, чтобы было понятнее, что пришло
+        .then((cards) => {
+          // карточки загружаем
+          setLikes(
+            cards.map((card) => {
+              return card.movieId;
+            })
+          );
+        })
+        .catch((err) => {
+          console.log(`Ошибка при запросе сохраненных фильмов: ${err}!`);
+        });
     } else {
-      setCards(JSON.parse(localStorage.getItem("moviesStorage")));
+      // запрос уже был отработан
+      //проверяем сохраненные ранее отфильтрованные фильмы и если есть восстанавливаем стейты!
+      if (localStorage.getItem("filteredMovies")) {
+        setIsLoading(true);
+        const recentMovies = JSON.parse(localStorage.getItem("filteredMovies"));
+        const recentQueryText = JSON.parse(localStorage.getItem("queryText"));
+        const recentcheckShort = JSON.parse(localStorage.getItem("checked"));
+        // перезаписываем карточки для показа
+        setCards(recentMovies);
+        setQueryText(recentQueryText);
+        setCheckShort(recentcheckShort);
+        //setIsLoading(false);
+      }
     }
     setIsLoading(false);
     //здесь также возвращаем функцию, которая "подметет" все при демонтаже
     //нужно будет сложить в localStorage отфильтрованные фильмы, поисковый запрос и положение чек-бокса
+    // return () => {
+    //   localStorage.setItem("isFirstSearch", false);
+    // };
   }, []);
 
   // обработчик submit в SearchForm
+  // const moviesSearch = (newQueryText, newCheckShort) => {
+  //   //обновляем стейты
+  //   if (newQueryText !== queryText || newCheckShort !== checkShort) {
+  //     //setIsLoading(true);
+  //     setQueryText(newQueryText);
+  //     setCheckShort(newCheckShort);
+  //   }
+  // };
+
+  //обработчик submit в SearchForm
   const moviesSearch = (newQueryText, newCheckShort) => {
-    //обновляем стейты
-    if (newQueryText !== queryText || newCheckShort !== checkShort) {
-      setIsLoading(true);
-      setQueryText(newQueryText);
-      setCheckShort(newCheckShort);
-    }
-  };
+    setIsFirstSearch(false);
+    //обновляем стейты - пусть выполняются потихоньку...
+    setIsLoading(true);
+    setQueryText(newQueryText);
+    setCheckShort(newCheckShort);
+    localStorage.setItem("checked", JSON.stringify(newCheckShort));
+    localStorage.setItem("queryText", JSON.stringify(newQueryText));
 
-  // эффект, который формирует массив карточкек в соответствии с queryText и checked
-  useEffect(() => {
     // если поисковая строка не пустая и не включены короткометражки
-    if (queryText.length !== 0 && !checkShort) {
+    if (newQueryText.length !== 0 && !newCheckShort) {
       //сохраняем новые значения запроса и чек-бокса в localStorage
-      localStorage.setItem("checked", JSON.stringify(checkShort));
-      localStorage.setItem("queryText", JSON.stringify(queryText));
-
       const movies = JSON.parse(localStorage.getItem("moviesStorage"));
-      const searchText = queryText.toLowerCase();
+      const searchText = newQueryText.toLowerCase();
       const filteredMovies = movies.filter((item) => {
         return item.nameRU.toLowerCase().includes(searchText);
       });
-
       setCards(filteredMovies);
       localStorage.setItem("filteredMovies", JSON.stringify(filteredMovies));
       setIsLoading(false);
-    } else if (queryText.length !== 0 && checkShort) {
-      localStorage.setItem("checked", JSON.stringify(checkShort));
-      localStorage.setItem("queryText", JSON.stringify(queryText));
-
+    } else if (newQueryText.length !== 0 && newCheckShort) {
       const movies = JSON.parse(localStorage.getItem("moviesStorage"));
-      const searchText = queryText.toLowerCase();
+      const searchText = newQueryText.toLowerCase();
       const filteredMovies = movies.filter((item) => {
         return item.nameRU.toLowerCase().includes(searchText);
       });
@@ -139,20 +205,14 @@ function Movies(props) {
         JSON.stringify(shortFilteredMovies)
       );
       setIsLoading(false);
-    } else if (queryText.length === 0 && !checkShort) {
+    } else if (newQueryText.length === 0 && !newCheckShort) {
       //сохраняем новые значения запроса и чек-бокса в localStorage
-      localStorage.setItem("checked", JSON.stringify(checkShort));
-      localStorage.setItem("queryText", JSON.stringify(queryText));
-
       const movies = JSON.parse(localStorage.getItem("moviesStorage"));
       setCards(movies);
       localStorage.setItem("filteredMovies", []);
       setIsLoading(false);
     } else {
       // показываем ВСЕ коротометражки
-      localStorage.setItem("checked", JSON.stringify(checkShort));
-      localStorage.setItem("queryText", JSON.stringify(queryText));
-
       const movies = JSON.parse(localStorage.getItem("moviesStorage"));
       const shortFilteredMovies = movies.filter((item) => {
         return item.duration <= 40;
@@ -164,7 +224,69 @@ function Movies(props) {
       );
       setIsLoading(false);
     }
-  }, [queryText, checkShort]);
+  };
+
+  // // эффект, который формирует массив карточкек в соответствии с queryText и checked
+  // useEffect(() => {
+  //   // если поисковая строка не пустая и не включены короткометражки
+  //   if (queryText.length !== 0 && !checkShort) {
+  //     //сохраняем новые значения запроса и чек-бокса в localStorage
+  //     localStorage.setItem("checked", JSON.stringify(checkShort));
+  //     localStorage.setItem("queryText", JSON.stringify(queryText));
+
+  //     const movies = JSON.parse(localStorage.getItem("moviesStorage"));
+  //     const searchText = queryText.toLowerCase();
+  //     const filteredMovies = movies.filter((item) => {
+  //       return item.nameRU.toLowerCase().includes(searchText);
+  //     });
+
+  //     setCards(filteredMovies);
+  //     localStorage.setItem("filteredMovies", JSON.stringify(filteredMovies));
+  //     setIsLoading(false);
+  //   } else if (queryText.length !== 0 && checkShort) {
+  //     localStorage.setItem("checked", JSON.stringify(checkShort));
+  //     localStorage.setItem("queryText", JSON.stringify(queryText));
+
+  //     const movies = JSON.parse(localStorage.getItem("moviesStorage"));
+  //     const searchText = queryText.toLowerCase();
+  //     const filteredMovies = movies.filter((item) => {
+  //       return item.nameRU.toLowerCase().includes(searchText);
+  //     });
+  //     const shortFilteredMovies = filteredMovies.filter((item) => {
+  //       return item.duration <= 40;
+  //     });
+  //     setCards(shortFilteredMovies);
+  //     localStorage.setItem(
+  //       "filteredMovies",
+  //       JSON.stringify(shortFilteredMovies)
+  //     );
+  //     setIsLoading(false);
+  //   } else if (queryText.length === 0 && !checkShort) {
+  //     //сохраняем новые значения запроса и чек-бокса в localStorage
+  //     localStorage.setItem("checked", JSON.stringify(checkShort));
+  //     localStorage.setItem("queryText", JSON.stringify(queryText));
+
+  //     const movies = JSON.parse(localStorage.getItem("moviesStorage"));
+  //     setCards(movies);
+  //     localStorage.setItem("filteredMovies", []);
+  //     setIsLoading(false);
+  //   } else {
+  //     // показываем ВСЕ коротометражки
+  //     localStorage.setItem("checked", JSON.stringify(checkShort));
+  //     localStorage.setItem("queryText", JSON.stringify(queryText));
+
+  //     const movies = JSON.parse(localStorage.getItem("moviesStorage"));
+  //     const shortFilteredMovies = movies.filter((item) => {
+  //       return item.duration <= 40;
+  //     });
+  //     setCards(shortFilteredMovies);
+  //     localStorage.setItem(
+  //       "filteredMovies",
+  //       JSON.stringify(shortFilteredMovies)
+  //     );
+  //     setIsLoading(false);
+  //   }
+  // }, [queryText, checkShort]);
 
   //обработка лайка карточки
   const handleCardLike = (card, isLiked) => {
