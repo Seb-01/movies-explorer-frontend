@@ -98,7 +98,6 @@ function App() {
     login(email, password)
       // здесь уже токен от сервера получаем
       .then((res) => {
-        console.log(res);
         if (res) {
           // Если сюда пришли, значит токен успешно сохранен в localStorage
           // выставляем loggedIn в true и соответствующий хук среагирует,

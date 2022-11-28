@@ -53,6 +53,7 @@ function Movies(props) {
         if (res) {
           // сохраняем данные в локальном хранилище
           localStorage.setItem("moviesStorage", JSON.stringify(res));
+          setCards(res);
         }
       })
       .catch((err) => {
