@@ -218,7 +218,7 @@ function Register(props) {
             </span>
           </label>
         </fieldset>
-
+        <span className="form__reg-login-error">{props.error}</span>
         <button
           className={`form__reg-login-submit-button ${
             isValid ? "" : "form__reg-login-submit-button_disabled"

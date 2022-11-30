@@ -21,6 +21,7 @@ body {
 @import url(./blocks/form/__login-submit-button/form__login-submit-button.css);
 @import url(./blocks/form/__input-error/form__input-error.css);
 @import url(./blocks/form/__reg-login-link/form__reg-login-link.css);
+@import url(./blocks/form/__reg-login-error/form__reg-login-error.css);
 @import url(./blocks/form/__profile-container/form__profile-container.css);
 @import url(./blocks/form/__profile-title/form__profile-title.css);
 @import url(./blocks/form/__profile-input/form__profile-input.css);

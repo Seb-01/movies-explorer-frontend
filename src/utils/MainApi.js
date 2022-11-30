@@ -52,8 +52,8 @@ export const login = (email, password) => {
         if (data.token) {
           // сохраняем токен
           localStorage.setItem("jwt", data.token);
-          // console.log(`data: ${data}`);
-          // console.log(`data.token: ${data.token}`);
+          console.log(`data: ${data}`);
+          console.log(`data.token: ${data.token}`);
           return data;
         } else {
           return;

@@ -33,6 +33,7 @@ import {
 } from "../../utils/MainApi";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import { ERRORS } from "../../utils/utils";
 
 function App() {
   // данные текущего пользователя
@@ -43,12 +44,13 @@ function App() {
   });
 
   // стейт-переменная со статусом пользователя - вошел в систему или нет?
-  const [loggedIn, setLoggedIn] = useState(
-    localStorage.getItem("jwt") ? true : false
-  );
+  // const [loggedIn, setLoggedIn] = useState(
+  //   localStorage.getItem("jwt") ? true : false
+  // );
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  // // переменная состояния, отвечающая за стейт данных о карточках
-  // const [cards, setCards] = useState([]);
+  const [errorLogin, setErrorLogin] = useState("");
+  const [errorRegister, setErrorRegister] = useState("");
 
   const history = useHistory();
 
@@ -83,12 +85,14 @@ function App() {
       // здесь уже данные пользователя от сервера
       .then((res) => {
         console.log(res);
+        setErrorRegister("");
         if (res) {
           history.push("/signin");
         }
       })
       .catch((err) => {
         console.log(`Ошибка при регистрации пользователя: ${err}!`);
+        setErrorRegister(ERRORS.REGISTER_ERROR_COMMON);
       });
   };
 
@@ -102,13 +106,17 @@ function App() {
           // Если сюда пришли, значит токен успешно сохранен в localStorage
           // выставляем loggedIn в true и соответствующий хук среагирует,
           // сохранив данные о пользователе в глобальную стейт-переменную currentUser
+          console.log(res);
+          setErrorLogin("");
           setLoggedIn(true);
           // переходим на страницу с фильмами
-          history.push("/movies");
+          if (pathname === "/signin") history.push("/movies");
+          else history.push(pathname);
         }
       })
       .catch((err) => {
         console.log(`Ошибка при авторизации пользователя: ${err}!`);
+        setErrorLogin(ERRORS.LOGIN_ERROR_COMMON);
       });
   };
 
@@ -163,8 +171,7 @@ function App() {
             setCurrentUser(userData);
             // авторизуем пользователя
             setLoggedIn(true);
-            // if (pathname === "/signin") history.push("/movies");
-            // else history.push(pathname);
+            history.push(pathname);
           }
         })
         .catch((err) => {
@@ -228,6 +235,7 @@ function App() {
               minLengthPassword={8}
               maxLengthPassword={200}
               onLogin={onLogin}
+              error={errorLogin}
             />
           </Route>
           <Route path="/signup">
@@ -239,6 +247,7 @@ function App() {
               minLengthPassword={8}
               maxLengthPassword={200}
               onRegister={onRegister}
+              error={errorRegister}
             />
           </Route>
           <Route path="*">
