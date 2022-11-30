@@ -81,6 +81,7 @@ function App() {
     // сюда добавим логику обработки формы регистрации
     // здесь важно порядок аргументов не перепутать!
     // console.log(email + " " + password + " " + name);
+    setErrorRegister("");
     register(email, password, name)
       // здесь уже данные пользователя от сервера
       .then((res) => {
@@ -99,6 +100,7 @@ function App() {
   // авторизация пользователя
   const onLogin = (email, password) => {
     // сюда добавим логику обработки формы логина
+    setErrorLogin("");
     login(email, password)
       // здесь уже токен от сервера получаем
       .then((res) => {
@@ -107,8 +109,8 @@ function App() {
           // выставляем loggedIn в true и соответствующий хук среагирует,
           // сохранив данные о пользователе в глобальную стейт-переменную currentUser
           console.log(res);
-          setErrorLogin("");
           setLoggedIn(true);
+          setErrorLogin("");
           // переходим на страницу с фильмами
           if (pathname === "/signin") history.push("/movies");
           else history.push(pathname);
