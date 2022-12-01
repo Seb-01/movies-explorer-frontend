@@ -14,6 +14,19 @@ function checkResponse(res) {
   return Promise.reject(`Ошибка выполнении запроса к серверу: ${res.status}`);
 }
 
+// от Евгения Карпеля
+// const checkResponse2 = (res) => {
+//   // Запрос успешен, вернём распарсенный ответ
+//   if (res.ok) {
+//     return res.json();
+//   }
+//   /* Запрос неуспешен, вернулся объект ошибки. Достанем его, распарсим, обогатим кодом ошибки и вернём как ошибку */
+//   return res.json().then((err) => {
+//     err.errorCode = res.status;
+//     return Promise.reject(err);
+//   });
+// };
+
 /** Регистрация пользователя
  *
  */

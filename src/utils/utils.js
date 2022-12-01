@@ -7,7 +7,7 @@ export const MOVIES_API_CONFIG_DEV = {
 };
 
 export const MAIN_API_CONFIG_DEV = {
-  URL: "http://localhost:3003",
+  URL: "https://api.seb.diploma.nomoredomains.club",
 };
 
 export const ERRORS = {
