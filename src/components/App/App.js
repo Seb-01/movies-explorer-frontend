@@ -52,6 +52,8 @@ function App() {
   const [errorLogin, setErrorLogin] = useState("");
   const [errorRegister, setErrorRegister] = useState("");
 
+  const [resultUpdateProfile, setResultUpdateProfile] = useState("");
+
   const history = useHistory();
 
   const { pathname } = useLocation();
@@ -86,9 +88,11 @@ function App() {
       // здесь уже данные пользователя от сервера
       .then((res) => {
         console.log(res);
-        setErrorRegister("");
+
         if (res) {
+          setErrorRegister("");
           history.push("/signin");
+          onLogin(email, password);
         }
       })
       .catch((err) => {
@@ -112,8 +116,12 @@ function App() {
           setLoggedIn(true);
           setErrorLogin("");
           // переходим на страницу с фильмами
-          if (pathname === "/signin") history.push("/movies");
-          else history.push(pathname);
+          // if (pathname === "/signin") history.push("/movies");
+          // else history.push(pathname);
+          // if (pathname === "/signin" || pathname === "/signup")
+          //   history.push("/");
+          // else history.push(pathname);
+          history.push("/movies");
         }
       })
       .catch((err) => {
@@ -134,9 +142,11 @@ function App() {
           email: userData.email,
         });
         // как-то уведомляем пользователя
+        setResultUpdateProfile("Профиль успешно обновлен!");
       })
       .catch((err) => {
         console.log(`Ошибка при обновлении данных пользователя: ${err}!`);
+        setResultUpdateProfile("При обновлении профиля произошла ошибка!");
       });
   };
 
@@ -154,16 +164,16 @@ function App() {
   };
 
   useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
     console.log(`Монтирую App, pathname: ${pathname}`);
-    tokenCheck();
+    tokenCheck(jwt);
     //history.push(pathname);
   }, []);
 
   // проверка токена
-  const tokenCheck = () => {
+  const tokenCheck = (jwt) => {
     // если у пользователя есть токен в localStorage,
     // эта функция проверит валидность токена
-    const jwt = localStorage.getItem("jwt");
     if (jwt) {
       // проверим токен
       getContent(jwt)
@@ -173,12 +183,27 @@ function App() {
             setCurrentUser(userData);
             // авторизуем пользователя
             setLoggedIn(true);
-            history.push(pathname);
+            //history.push(pathname);
+            // Если пользователь был авторизован и закрыл вкладку, он может вернуться
+            // сразу на любую страницу приложения по URL-адресу, кроме страниц авторизации и регистрации
+
+            if (pathname === "/signin" || pathname === "/signup")
+              history.push("/");
+            else history.push(pathname);
           }
         })
         .catch((err) => {
           console.log(`Ошибка при запросе данных пользователя: ${err}!`);
+          // токен не валидный - делаем полный "логаут" пользователя а главную страницу
+          // с шапкой неавторизованного пользователя с удалением всей его информации из хранилища и стейтов
+          // При попытке перейти на любой защищённый роут происходит редирект на /
+          localStorage.clear();
+          if (pathname === "/signin" || pathname === "/signup")
+            history.push(pathname);
+          else history.push("/");
         });
+    } else {
+      history.push("/");
     }
   };
 
@@ -225,6 +250,7 @@ function App() {
             path="/profile"
             loggedIn={loggedIn}
             location={pathname}
+            resultUpdateProfile={resultUpdateProfile}
             buttonSubmitText="Редактировать"
             updateIsOpenPopupMenu={updateIsOpenPopupMenu}
             onUpdateUserProfile={onUpdateUserProfile}

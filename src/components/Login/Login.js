@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
-import logoRegister from "../../images/logo_header.svg";
 import { Link } from "react-router-dom";
+import LogoLink from "../LogoLink/LogoLink";
+import logoHeader from "../../images/logo_header.svg";
 
 function Login(props) {
   // управляемые элементы полей input
@@ -15,18 +16,18 @@ function Login(props) {
   // состояние валидности формы
   const [isValid, setIsValid] = useState(false);
 
-  // делаем ссылочку на input email - браузерную валидиацию из поля будем брать!
-  const emailInputRef = useRef();
-
   // Обрабочик ввода инфо в поле email
   const handleEmail = (event) => {
     const target = event.target;
     const value = target.value;
     setEmail(value);
 
-    // и здесь же валидацию реализуем - берем ее из Constraint Validation API
-    if (emailInputRef.current.validationMessage) {
-      setEmailError(`${"Email: "} ${emailInputRef.current.validationMessage}`);
+    // валидацию на основе regexp
+    const re =
+      /^[a-z0-9][a-z0-9-_\.]+@([a-z]|[a-z0-9]?[a-z0-9-]+[a-z0-9])\.[a-z0-9]{2,10}(?:\.[a-z]{2,10})?$/gi;
+    const res = re.test(String(value).toLowerCase());
+    if (!res) {
+      setEmailError("Неверный формат email!");
     } else {
       setEmailError("");
     }
@@ -87,9 +88,7 @@ function Login(props) {
     <>
       <section className="form__reg-login-container">
         <form name={props.name} action="#" onSubmit={handleSubmit} noValidate>
-          <div className="form__reg-login-logo">
-            <img src={logoRegister} alt="Лого Movies-Explorer" />
-          </div>
+          <LogoLink logo={logoHeader} />
           <h2 className="form__reg-login-title">{props.title}</h2>
 
           <fieldset className="form__info">
@@ -101,7 +100,6 @@ function Login(props) {
                 className="form__input"
                 value={props.email}
                 name="email"
-                ref={emailInputRef}
                 placeholder="email"
                 required
                 onChange={handleEmail}

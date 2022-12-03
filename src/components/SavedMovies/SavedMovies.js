@@ -5,6 +5,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import SavedMoviesCardList from "../SavedMoviesCardList/SavedMoviesCardList";
 import Preloader from "../Preloader/Preloader";
 import { getSavedMovies, removeSavedMovie } from "../../utils/MainApi";
+import Footer from "../Footer/Footer";
 
 function SavedMovies(props) {
   // переменная состояния, отвечающая за стейт данных о карточках
@@ -12,17 +13,22 @@ function SavedMovies(props) {
   // переменная состояния, отвечающая за отображение прелоадера
   const [isLoading, setIsLoading] = useState(false);
   // переменная состояния, отвечающая за стейт поисковой строки
-  const [queryText, setQueryText] = useState(
-    localStorage.getItem("queryTextSaved")
-      ? JSON.parse(localStorage.getItem("queryTextSaved"))
-      : ""
-  );
+  const [queryText, setQueryText] = useState("");
+
+  // const [queryText, setQueryText] = useState(
+  //   localStorage.getItem("queryTextSaved")
+  //     ? JSON.parse(localStorage.getItem("queryTextSaved"))
+  //     : ""
+  // );
+
   // переменная состояния, отвечающая за стейт чек-бокса
-  const [checkShort, setCheckShort] = useState(
-    localStorage.getItem("queryTextSaved")
-      ? JSON.parse(localStorage.getItem("checkedSaved"))
-      : false
-  );
+  const [checkShort, setCheckShort] = useState(false);
+
+  // const [checkShort, setCheckShort] = useState(
+  //   localStorage.getItem("queryTextSaved")
+  //     ? JSON.parse(localStorage.getItem("checkedSaved"))
+  //     : false
+  // );
 
   // добавляем эффект, вызываемый при монтировании компонента, который будет совершать
   // запрос в API за сохраненными фильмами
@@ -36,25 +42,25 @@ function SavedMovies(props) {
         //setCardsSaved(cards);
 
         let showedCards = cards;
-        if (localStorage.getItem("queryTextSaved")) {
-          let searchText = JSON.parse(localStorage.getItem("queryTextSaved"));
-          setQueryText(searchText);
-          if (searchText !== "") {
-            searchText = searchText.toLowerCase();
-            showedCards = showedCards.filter((item) => {
-              return item.nameRU.toLowerCase().includes(searchText);
-            });
-          }
-        }
-        if (localStorage.getItem("checkedSaved")) {
-          const checkValue = JSON.parse(localStorage.getItem("checkedSaved"));
-          setCheckShort(checkValue);
-          if (checkValue) {
-            showedCards = showedCards.filter((item) => {
-              return item.duration <= 40;
-            });
-          }
-        }
+        // if (localStorage.getItem("queryTextSaved")) {
+        //   let searchText = JSON.parse(localStorage.getItem("queryTextSaved"));
+        //   setQueryText(searchText);
+        //   if (searchText !== "") {
+        //     searchText = searchText.toLowerCase();
+        //     showedCards = showedCards.filter((item) => {
+        //       return item.nameRU.toLowerCase().includes(searchText);
+        //     });
+        //   }
+        // }
+        // if (localStorage.getItem("checkedSaved")) {
+        //   const checkValue = JSON.parse(localStorage.getItem("checkedSaved"));
+        //   setCheckShort(checkValue);
+        //   if (checkValue) {
+        //     showedCards = showedCards.filter((item) => {
+        //       return item.duration <= 40;
+        //     });
+        //   }
+        // }
         setCardsSaved(showedCards);
         setIsLoading(false);
       })
@@ -91,8 +97,8 @@ function SavedMovies(props) {
   useEffect(() => {
     setIsLoading(true);
 
-    localStorage.setItem("checkedSaved", JSON.stringify(checkShort));
-    localStorage.setItem("queryTextSaved", JSON.stringify(queryText));
+    // localStorage.setItem("checkedSaved", JSON.stringify(checkShort));
+    // localStorage.setItem("queryTextSaved", JSON.stringify(queryText));
 
     //снова загружаем все карточки
     getSavedMovies()
@@ -155,6 +161,7 @@ function SavedMovies(props) {
       {/* <div className="movies__another-one-button-wrapper">
         <button className="movies__another-one-button">Еще</button>
       </div> */}
+      <Footer />
     </section>
   );
 }

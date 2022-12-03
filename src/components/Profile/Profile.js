@@ -20,6 +20,13 @@ function Profile(props) {
   const [nameError, setNameError] = useState("start");
   const [emailError, setEmailError] = useState("start");
 
+  // Создаём переменную, которую после зададим в `className` для кнопки лайка
+  const submitButtonClassName = `form__profile-submit-button ${
+    userName === currentUser.name && email === currentUser.email
+      ? "form__profile-submit-button_disable"
+      : ""
+  }`;
+
   // Обрабочик ввода инфо в поле email
   const handleEmail = (event) => {
     const target = event.target;
@@ -89,7 +96,6 @@ function Profile(props) {
       <section className="form__profile-container">
         <form name={props.name} action="#" onSubmit={handleSubmit} noValidate>
           <h2 className="form__profile-title">Привет, {currentUser.name}!</h2>
-
           <fieldset className="form__info">
             <label className="form__profile-field">
               Имя
@@ -126,7 +132,12 @@ function Profile(props) {
               } `}
             </span>
           </fieldset>
-          <button className="form__profile-submit-button" type="submit">
+
+          <span className="form__reg-login-error">
+            {props.resultUpdateProfile}
+          </span>
+
+          <button className={submitButtonClassName} type="submit">
             {props.buttonSubmitText}
           </button>
           <button

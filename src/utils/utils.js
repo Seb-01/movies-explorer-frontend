@@ -6,8 +6,12 @@ export const MOVIES_API_CONFIG_DEV = {
   URL: "https://api.nomoreparties.co/beatfilm-movies",
 };
 
+// export const MAIN_API_CONFIG_DEV = {
+//   URL: "https://api.seb.diploma.nomoredomains.club",
+// };
+
 export const MAIN_API_CONFIG_DEV = {
-  URL: "https://api.seb.diploma.nomoredomains.club",
+  URL: "http://localhost:3003",
 };
 
 export const ERRORS = {
@@ -21,4 +25,11 @@ export const ERRORS = {
   UPDATE_PROFILE_ERROR_DUBLICATE_EMAIL:
     "Пользователь с таким email уже существует",
   UPDATE_PROFILE_ERROR_COMMON: "При обновлении профиля произошла ошибка",
+};
+
+// функция, которая превращает минуты в формат HHч. mmм.
+export const getTimeFromMins = (mins) => {
+  let hours = Math.trunc(mins / 60);
+  let minutes = mins % 60;
+  return hours + "ч " + minutes + "м";
 };

@@ -28,6 +28,7 @@ body {
 @import url(./blocks/form/__profile-field/form__profile-field.css);
 @import url(./blocks/form/__profile-action-wrapper/form__profile-action-wrapper.css);
 @import url(./blocks/form/__profile-submit-button/form__profile-submit-button.css);
+@import url(./blocks/form/__profile-submit-button/_disable/form__profile-submit-button_disable.css);
 @import url(./blocks/form/__profile-exit-account-button/form__profile-exit-account-button.css);
 @import url(./blocks/form/__input/_text-color-red/form__input_text-color-red.css);
 @import url(./blocks/form/__reg-login-container/form__reg-login-container.css);

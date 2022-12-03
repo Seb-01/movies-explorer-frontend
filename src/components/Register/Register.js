@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Register.css";
-import logoRegister from "../../images/logo_header.svg";
 import { Link } from "react-router-dom";
+import logoHeader from "../../images/logo_header.svg";
+import LogoLink from "../LogoLink/LogoLink";
 
 function Register(props) {
   // управляемые элементы полей input
@@ -9,56 +10,29 @@ function Register(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // состояние - были мы же в этом input или нет
-  // const [userNameVisited, setUserNamevisited] = useState(false);
-  // const [emailVisited, setEmailVisited] = useState(false);
-  // const [passwordVisited, setPasswordVisited] = useState(false);
-
   // состояния с ошибками
   //const [nameError, setNameError] = useState("Поле Имя не должно быть пустым!");
   const [nameError, setNameError] = useState("start");
-  // const [emailError, setEmailError] = useState(
-  //   "Поле E-mail не должно быть пустым!"
-  // );
+
   const [emailError, setEmailError] = useState("start");
-  // const [passwordError, setPasswordError] = useState(
-  //   "Поле пароль не должно быть пустым!"
-  // );
+
   const [passwordError, setPasswordError] = useState("start");
 
   // состояние валидности формы
   const [isValid, setIsValid] = useState(false);
-
-  // делаем ссылочку на input email - браузерную валидиацию из поля будем брать!
-  const emailInputRef = useRef();
-
-  // реакция на event, когда пользователь покинул input
-  // const handleBlur = (event) => {
-  //   switch (event.target.name) {
-  //     case "name":
-  //       setUserNamevisited(true);
-  //       break;
-  //     case "email":
-  //       setEmailVisited(true);
-  //       break;
-  //     case "password":
-  //       setPasswordVisited(true);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
 
   // Обрабочик ввода инфо в поле email
   const handleEmail = (event) => {
     const target = event.target;
     const value = target.value;
     setEmail(value);
-    // console.log("Email: " + value);
 
-    // и здесь же валидацию реализуем - берем ее из Constraint Validation API
-    if (emailInputRef.current.validationMessage) {
-      setEmailError(`${"Email: "} ${emailInputRef.current.validationMessage}`);
+    // валидацию на основе regexp
+    const re =
+      /^[a-z0-9][a-z0-9-_\.]+@([a-z]|[a-z0-9]?[a-z0-9-]+[a-z0-9])\.[a-z0-9]{2,10}(?:\.[a-z]{2,10})?$/gi;
+    const res = re.test(String(value).toLowerCase());
+    if (!res) {
+      setEmailError("Неверный формат email!");
     } else {
       setEmailError("");
     }
@@ -69,7 +43,6 @@ function Register(props) {
     const target = event.target;
     const value = target.value;
     setUserName(value);
-    //console.log("Имя: " + value);
 
     // валидируем поле самостоятельно
     if (!value) {
@@ -159,9 +132,7 @@ function Register(props) {
   return (
     <section className="form__reg-login-container">
       <form name={props.name} action="#" onSubmit={handleSubmit} noValidate>
-        <div className="form__reg-login-logo">
-          <img src={logoRegister} alt="Лого Movies-Explorer" />
-        </div>
+        <LogoLink logo={logoHeader} />
         <h2 className="form__reg-login-title">{props.title}</h2>
 
         <fieldset className="form__info">
@@ -178,7 +149,6 @@ function Register(props) {
               maxLength={props.maxLengthName}
               required
               onChange={handleName}
-              //onBlur={handleBlur}
             />
           </label>
           <label className="form__field">
@@ -189,11 +159,9 @@ function Register(props) {
               className="form__input"
               value={email}
               name="email"
-              ref={emailInputRef}
               placeholder="email"
               required
               onChange={handleEmail}
-              //onBlur={handleBlur}
             />
           </label>
           <label className="form__field">
@@ -209,7 +177,6 @@ function Register(props) {
               maxLength={props.maxLengthPassword}
               required
               onChange={handlePassword}
-              //onBlur={handleBlur}
             />
             <span className="form__input-error">
               {`${nameError !== "start" ? nameError : ""} ${

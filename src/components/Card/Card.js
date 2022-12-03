@@ -1,6 +1,7 @@
 import React from "react";
 // import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "./Card.css";
+import { getTimeFromMins } from "../../utils/utils";
 
 function Card(props) {
   // кликом по карточке переводим на ютюб-трейлер фильма
@@ -22,7 +23,9 @@ function Card(props) {
         {/* тут будет вложенное содержимое в виде JSX-разметки */}
         {props.children}
       </div>
-      <span className="elements__subtitle">{props.duration}</span>
+      <span className="elements__subtitle">
+        {getTimeFromMins(props.duration)}
+      </span>
     </article>
   );
 }

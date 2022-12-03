@@ -49,6 +49,7 @@
   color: #C2C2C2;
   pointer-events: none;
   cursor: default;
+  display: none;
 }
 
 .movies-card-list__another-one-button_disabled:hover {

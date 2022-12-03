@@ -14,7 +14,7 @@ import {
 
 function Movies(props) {
   // переменная состояния, отвечающая за отображение прелоадера
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   // переменная состояния, отвечающая за признак первичного поиска
   const [isFirstSearch, setIsFirstSearch] = useState(
     localStorage.getItem("isFirstSearch")
@@ -47,33 +47,11 @@ function Movies(props) {
 
   // стэйт с ошибкой при запросе данных у сервера
   const [errors, setErrors] = useState("");
+  // стэйт - индикатор пустого результата запроса
+  const [isEmptySearch, setIsEmptySearch] = useState(false);
 
   // эффект при монтировании компонента (не важно перезагрузка страницы или при перемещении между роутерами)
   useEffect(() => {
-    //если запроса еще не было: значит мы вошли после логина!
-    if (isFirstSearch) {
-      // крутим прелоадер - ждем первого поиска
-      setIsLoading(true);
-      // обновляем фильмы с сервера каждый раз - вдруг что-то новенькое)
-      getMovies()
-        // здесь уже данные от сервера пришли!
-        .then((res) => {
-          // console.log(res);
-          if (res) {
-            // сохраняем данные в локальном хранилище
-            localStorage.setItem("moviesStorage", JSON.stringify(res));
-            setErrors(
-              "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
-            );
-          }
-        })
-        .catch((err) => {
-          console.log(`Ошибка при зарузке фильмов: ${err}!`);
-          setErrors("");
-        });
-    } else {
-      setIsLoading(false);
-    }
     // инициализируем список id фильмов с лайками = все те, которые есть в сохраненных
     getSavedMovies()
       // обрабатываем полученные данные деструктурируем ответ от сервера, чтобы было понятнее, что пришло
@@ -85,6 +63,7 @@ function Movies(props) {
             return card.movieId;
           })
         );
+        console.log(`Сохраненные фильмы: ${JSON.stringify(cards)}`);
       })
       .catch((err) => {
         console.log(`Ошибка при запросе сохраненных фильмов: ${err}!`);
@@ -94,60 +73,80 @@ function Movies(props) {
   //обработчик submit в SearchForm
   const moviesSearch = (newQueryText, newCheckShort) => {
     //обновляем стейты - пусть выполняются потихоньку...
-    setIsLoading(true);
+
     setQueryText(newQueryText);
     setCheckShort(newCheckShort);
+    //сохраняем новые значения запроса и чек-бокса в localStorage
     localStorage.setItem("checked", JSON.stringify(newCheckShort));
     localStorage.setItem("queryText", JSON.stringify(newQueryText));
+
+    // Это первый поиск фильмов? Тогда идем за фильмами:
     if (isFirstSearch) {
+      //setErrors("");
+
+      getMovies()
+        // здесь уже данные от сервера пришли!
+        .then((res) => {
+          // console.log(res);
+          if (res) {
+            // сохраняем данные в локальном хранилище
+            localStorage.setItem("moviesStorage", JSON.stringify(res));
+            //setErrors("");
+          }
+        })
+        .catch((err) => {
+          console.log(`Ошибка при зарузке фильмов: ${err}!`);
+          setErrors(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+          );
+        });
+
       localStorage.setItem("isFirstSearch", JSON.stringify(false));
       setIsFirstSearch(false);
     }
 
+    //сбрасываем индикатор пустого результата поиска
+    setIsEmptySearch(false);
     const movies = JSON.parse(localStorage.getItem("moviesStorage"));
+    // если в "moviesStorage" ничего нет, то movies null, значит данные еще не загружены!
+    if (movies === null) {
+      setErrors(
+        "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+      );
+      return;
+    }
 
+    setErrors("");
+    let searchedMovies = [];
+    setIsLoading(true);
     // если поисковая строка не пустая и не включены короткометражки
     if (newQueryText.length !== 0 && !newCheckShort) {
-      //сохраняем новые значения запроса и чек-бокса в localStorage
-
       const searchText = newQueryText.toLowerCase();
-      const filteredMovies = movies.filter((item) => {
+      searchedMovies = movies.filter((item) => {
         return item.nameRU.toLowerCase().includes(searchText);
       });
-      setCards(filteredMovies);
-      localStorage.setItem("filteredMovies", JSON.stringify(filteredMovies));
-      setIsLoading(false);
     } else if (newQueryText.length !== 0 && newCheckShort) {
       const searchText = newQueryText.toLowerCase();
       const filteredMovies = movies.filter((item) => {
         return item.nameRU.toLowerCase().includes(searchText);
       });
-      const shortFilteredMovies = filteredMovies.filter((item) => {
+      searchedMovies = filteredMovies.filter((item) => {
         return item.duration <= 40;
       });
-      setCards(shortFilteredMovies);
-      localStorage.setItem(
-        "filteredMovies",
-        JSON.stringify(shortFilteredMovies)
-      );
-      setIsLoading(false);
     } else if (newQueryText.length === 0 && !newCheckShort) {
-      //сохраняем новые значения запроса и чек-бокса в localStorage
-      setCards(movies);
-      localStorage.setItem("filteredMovies", JSON.stringify(movies));
-      setIsLoading(false);
+      searchedMovies = JSON.parse(localStorage.getItem("moviesStorage"));
     } else {
       // показываем ВСЕ коротометражки
-      const shortFilteredMovies = movies.filter((item) => {
+      searchedMovies = movies.filter((item) => {
         return item.duration <= 40;
       });
-      setCards(shortFilteredMovies);
-      localStorage.setItem(
-        "filteredMovies",
-        JSON.stringify(shortFilteredMovies)
-      );
-      setIsLoading(false);
     }
+
+    //отображаем карточки, которые нашли и делаем проверку на пустую выдачу
+    setIsLoading(false);
+    localStorage.setItem("filteredMovies", JSON.stringify(searchedMovies));
+    setCards(searchedMovies);
+    if (searchedMovies.length === 0) setIsEmptySearch(true);
   };
 
   //обработка лайка карточки
@@ -210,9 +209,10 @@ function Movies(props) {
         onSearch={moviesSearch}
       />
       {isLoading && <Preloader />}
-      {!cards.length && (
+      {isEmptySearch && (
         <span className="movies__not-found">Ничего не найдено!</span>
       )}
+      {errors !== "" && <span className="movies__not-found">{errors}</span>}
       {!isLoading && cards && (
         <MoviesCardList
           cards={cards}

@@ -19,17 +19,6 @@ function LikeButton(props) {
     isLiked ? "elements__like-button_active" : ""
   }`;
 
-  // function handleLikeClick() {
-  //   // если иконка не залита, то сохраняем фильм
-  //   if (!isLiked) {
-  //     props.onCardLike(props.card);
-  //     setIsLiked(true);
-  //   } else {
-  //     props.onCardDelete(props.card);
-  //     setIsLiked(false);
-  //   }
-  // }
-
   function handleLikeClick() {
     // если иконка не залита, то сохраняем фильм
     props.onCardLike(props.card, isLiked);
