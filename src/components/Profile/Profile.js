@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Profile.css";
 import Header from "../Header/Header";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
@@ -6,7 +6,9 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 function Profile(props) {
   // подписываемся на контекст CurrentUserContext
   const currentUser = React.useContext(CurrentUserContext);
-  //console.log(currentUser);
+
+  const [readyToEdit, setReadyToEdit] = useState(false);
+  const [formMessage, setFormMessage] = useState("");
 
   // управляемые элементы полей input
   const [userName, setUserName] = useState(currentUser.name);
@@ -21,23 +23,24 @@ function Profile(props) {
   const [emailError, setEmailError] = useState("start");
 
   // Создаём переменную, которую после зададим в `className` для кнопки лайка
-  const submitButtonClassName = `form__profile-submit-button ${
-    userName === currentUser.name && email === currentUser.email
-      ? "form__profile-submit-button_disable"
-      : ""
-  }`;
+  // const submitButtonClassName = `form__profile-submit-button ${
+  //   userName === currentUser.name && email === currentUser.email
+  //     ? "form__profile-submit-button_disable"
+  //     : ""
+  // }`;
 
   // Обрабочик ввода инфо в поле email
   const handleEmail = (event) => {
     const target = event.target;
     const value = target.value;
     setEmail(value);
-    // currentUser.email = value;
-    // console.log("Email: " + value);
 
-    // и здесь же валидацию реализуем - берем ее из Constraint Validation API
-    if (emailInputRef.current.validationMessage) {
-      setEmailError(`${"Email: "} ${emailInputRef.current.validationMessage}`);
+    // валидацию на основе regexp
+    const re =
+      /^[a-z0-9][a-z0-9-_\.]+@([a-z]|[a-z0-9]?[a-z0-9-]+[a-z0-9])\.[a-z0-9]{2,10}(?:\.[a-z]{2,10})?$/gi;
+    const res = re.test(String(value).toLowerCase());
+    if (!res) {
+      setEmailError("Неверный формат email!");
     } else {
       setEmailError("");
     }
@@ -90,6 +93,12 @@ function Profile(props) {
     props.onLogout();
   };
 
+  useEffect(() => {
+    if (userName === currentUser.name && email === currentUser.email)
+      setReadyToEdit(false);
+    else setReadyToEdit(true);
+  }, [userName, email, currentUser.name, currentUser.email]);
+
   return (
     <>
       <Header updateIsOpenPopupMenu={props.updateIsOpenPopupMenu} />
@@ -134,10 +143,21 @@ function Profile(props) {
           </fieldset>
 
           <span className="form__reg-login-error">
-            {props.resultUpdateProfile}
+            {!readyToEdit && props.resultUpdateProfile}
           </span>
 
-          <button className={submitButtonClassName} type="submit">
+          {/* <button className={submitButtonClassName} type="submit">
+            {props.buttonSubmitText}
+          </button> */}
+
+          <button
+            className={
+              readyToEdit
+                ? "form__profile-submit-button"
+                : "form__profile-submit-button form__profile-submit-button_disable"
+            }
+            type="submit"
+          >
             {props.buttonSubmitText}
           </button>
           <button
