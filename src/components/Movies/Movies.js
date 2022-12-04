@@ -71,7 +71,7 @@ function Movies(props) {
   }, []);
 
   //обработчик submit в SearchForm
-  const moviesSearch = (newQueryText, newCheckShort) => {
+  async function moviesSearch(newQueryText, newCheckShort) {
     //обновляем стейты - пусть выполняются потихоньку...
 
     setQueryText(newQueryText);
@@ -83,8 +83,9 @@ function Movies(props) {
     // Это первый поиск фильмов? Тогда идем за фильмами:
     if (isFirstSearch) {
       //setErrors("");
+      setIsLoading(true);
 
-      getMovies()
+      await getMovies()
         // здесь уже данные от сервера пришли!
         .then((res) => {
           // console.log(res);
@@ -92,6 +93,7 @@ function Movies(props) {
             // сохраняем данные в локальном хранилище
             localStorage.setItem("moviesStorage", JSON.stringify(res));
             //setErrors("");
+            setIsLoading(false);
           }
         })
         .catch((err) => {
@@ -108,7 +110,7 @@ function Movies(props) {
     //сбрасываем индикатор пустого результата поиска
     setIsEmptySearch(false);
     const movies = JSON.parse(localStorage.getItem("moviesStorage"));
-    // если в "moviesStorage" ничего нет, то movies null, значит данные еще не загружены!
+    //если в "moviesStorage" ничего нет, то в movies null, значит при загрузке данных ошибка
     if (movies === null) {
       setErrors(
         "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
@@ -147,7 +149,7 @@ function Movies(props) {
     localStorage.setItem("filteredMovies", JSON.stringify(searchedMovies));
     setCards(searchedMovies);
     if (searchedMovies.length === 0) setIsEmptySearch(true);
-  };
+  }
 
   //обработка лайка карточки
   const handleCardLike = (card, isLiked) => {

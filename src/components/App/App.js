@@ -113,6 +113,10 @@ function App() {
           // выставляем loggedIn в true и соответствующий хук среагирует,
           // сохранив данные о пользователе в глобальную стейт-переменную currentUser
           console.log(res);
+          // здесь можем получить данные пользователя!
+          const jwt = localStorage.getItem("jwt");
+          tokenCheck(jwt);
+
           setLoggedIn(true);
           setErrorLogin("");
           // переходим на страницу с фильмами

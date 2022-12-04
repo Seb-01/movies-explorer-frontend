@@ -8,7 +8,8 @@ function Profile(props) {
   const currentUser = React.useContext(CurrentUserContext);
 
   const [readyToEdit, setReadyToEdit] = useState(false);
-  const [formMessage, setFormMessage] = useState("");
+  const [formMessage, setFormMessage] = useState(props.resultUpdateProfile);
+  console.log(formMessage);
 
   // управляемые элементы полей input
   const [userName, setUserName] = useState(currentUser.name);
@@ -96,7 +97,10 @@ function Profile(props) {
   useEffect(() => {
     if (userName === currentUser.name && email === currentUser.email)
       setReadyToEdit(false);
-    else setReadyToEdit(true);
+    else {
+      setReadyToEdit(true);
+      setFormMessage("");
+    }
   }, [userName, email, currentUser.name, currentUser.email]);
 
   return (
@@ -144,6 +148,7 @@ function Profile(props) {
 
           <span className="form__reg-login-error">
             {!readyToEdit && props.resultUpdateProfile}
+            {/* {!readyToEdit && formMessage} */}
           </span>
 
           {/* <button className={submitButtonClassName} type="submit">

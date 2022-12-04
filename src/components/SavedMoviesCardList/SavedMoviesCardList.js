@@ -7,7 +7,7 @@ function SavedMoviesCardList(props) {
       {/* карточки отображаем */}
       {props.cardsSaved.map((item, i) => (
         <SavedMoviesCard
-          key={i}
+          key={item.movieId}
           card={item}
           onCardClick={props.onCardClick}
           onCardDelete={props.onCardDelete}

@@ -117,7 +117,7 @@ function MoviesCardList(props) {
           .slice(0, maxRows * maxCols + countExtraRows * maxCols)
           .map((item, i) => (
             <MoviesCard
-              key={i}
+              key={item.id}
               card={item}
               isLiked={props.likes.includes(item.id) ? true : false}
               onCardClick={props.onCardClick}
