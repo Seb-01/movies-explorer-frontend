@@ -3,12 +3,12 @@ import "./NotFound.css";
 import { useHistory } from "react-router-dom";
 
 function NotFound(props) {
-  // открытие попап-меню
   function handleClick(evt) {
-    history.go(-3);
+    history.goBack();
   }
 
   const history = useHistory();
+
   return (
     <>
       <section className="notfound__container">

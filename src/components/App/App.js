@@ -91,7 +91,7 @@ function App() {
 
         if (res) {
           setErrorRegister("");
-          history.push("/signin");
+          history.replace("/signin");
           onLogin(email, password);
         }
       })
@@ -116,12 +116,7 @@ function App() {
           setLoggedIn(true);
           setErrorLogin("");
           // переходим на страницу с фильмами
-          // if (pathname === "/signin") history.push("/movies");
-          // else history.push(pathname);
-          // if (pathname === "/signin" || pathname === "/signup")
-          //   history.push("/");
-          // else history.push(pathname);
-          history.push("/movies");
+          history.replace("/movies");
         }
       })
       .catch((err) => {
@@ -156,7 +151,7 @@ function App() {
     // очищаем полностью?
     localStorage.clear();
     setLoggedIn(false);
-    history.push("/signin");
+    history.replace("/signin");
   };
 
   const handleCardClick = (trailerLink) => {
@@ -167,7 +162,6 @@ function App() {
     const jwt = localStorage.getItem("jwt");
     console.log(`Монтирую App, pathname: ${pathname}`);
     tokenCheck(jwt);
-    //history.push(pathname);
   }, []);
 
   // проверка токена
@@ -183,13 +177,12 @@ function App() {
             setCurrentUser(userData);
             // авторизуем пользователя
             setLoggedIn(true);
-            //history.push(pathname);
             // Если пользователь был авторизован и закрыл вкладку, он может вернуться
             // сразу на любую страницу приложения по URL-адресу, кроме страниц авторизации и регистрации
 
             if (pathname === "/signin" || pathname === "/signup")
-              history.push("/");
-            else history.push(pathname);
+              history.replace("/");
+            else history.replace(pathname);
           }
         })
         .catch((err) => {
@@ -199,11 +192,11 @@ function App() {
           // При попытке перейти на любой защищённый роут происходит редирект на /
           localStorage.clear();
           if (pathname === "/signin" || pathname === "/signup")
-            history.push(pathname);
-          else history.push("/");
+            history.replace(pathname);
+          else history.replace("/");
         });
     } else {
-      history.push("/");
+      history.replace("/");
     }
   };
 
