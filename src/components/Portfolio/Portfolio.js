@@ -12,7 +12,7 @@ function Portfolio() {
             <PortfolioListBullet
               value={{
                 text: "Статичный сайт",
-                link: "https://github.com/Seb-01",
+                link: "https://github.com/Seb-01/mesto",
                 pic: ProfilProjectLinkPic,
               }}
             />
@@ -21,7 +21,7 @@ function Portfolio() {
             <PortfolioListBullet
               value={{
                 text: "Адаптивный сайт",
-                link: "https://github.com/Seb-01",
+                link: "https://github.com/Seb-01/mesto-react-node-15",
                 pic: ProfilProjectLinkPic,
               }}
             />
@@ -30,7 +30,7 @@ function Portfolio() {
             <PortfolioListBullet
               value={{
                 text: "Одностраничное приложение",
-                link: "https://github.com/Seb-01",
+                link: "https://github.com/Seb-01/movies-explorer-frontend",
                 pic: ProfilProjectLinkPic,
               }}
             />

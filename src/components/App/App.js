@@ -185,7 +185,7 @@ function App() {
             // сразу на любую страницу приложения по URL-адресу, кроме страниц авторизации и регистрации
 
             if (pathname === "/signin" || pathname === "/signup")
-              history.replace("/");
+              history.replace("/movies");
             else history.replace(pathname);
           }
         })
