@@ -1,0 +1,31 @@
+.form__profile-exit-account-button {
+  transition: opacity 0.3s linear;
+ cursor: pointer;
+ border: 0;
+ padding: 0;
+ margin: 16px auto 0;
+ font-family: 'Inter';
+ font-style: normal;
+ font-weight: 400;
+ font-size: 13px;
+ line-height: 16px;
+ color: #FF3055;
+ display: block;
+ background: white;
+}
+
+.form__profile-exit-account-button:hover {
+ opacity: 0.8;
+}
+
+@media screen and (max-width: 768px) {
+  .profile-exit-account-button {
+    margin: 210px auto 0;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .profile-exit-account-button {
+    margin: 379px auto 0;
+  }
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "./LikeButton.css";
 
@@ -10,17 +10,20 @@ function LikeButton(props) {
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
   // const isLiked = props.card.likes.some((i) => i._id === currentUser._id);
 
+  useEffect(() => {
+    setIsLiked(props.isLiked);
+  }, [props.isLiked]);
+
   // Создаём переменную, которую после зададим в `className` для кнопки лайка
   const cardLikeButtonClassName = `elements__like-button ${
     isLiked ? "elements__like-button_active" : ""
   }`;
 
   function handleLikeClick() {
-    //props.onCardLike(props.card);
+    // если иконка не залита, то сохраняем фильм
+    props.onCardLike(props.card, isLiked);
     setIsLiked(!isLiked);
   }
-
-  console.log(props.card);
 
   return (
     <div>

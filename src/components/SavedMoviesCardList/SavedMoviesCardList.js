@@ -5,13 +5,13 @@ function SavedMoviesCardList(props) {
   return (
     <section className="elements">
       {/* карточки отображаем */}
-      {props.cards.map((item, i) => (
+      {props.cardsSaved.map((item, i) => (
         <SavedMoviesCard
-          key={i}
+          key={item.movieId}
           card={item}
           onCardClick={props.onCardClick}
-          onCardLike={props.onCardLike}
           onCardDelete={props.onCardDelete}
+          onSearch={props.onSearch}
         />
       ))}
     </section>

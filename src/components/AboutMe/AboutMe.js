@@ -8,7 +8,7 @@ function AboutMe(props) {
       <MainTitle title="Студент" />
 
       <div className="about-me__content-container">
-        <section className="about-me__abc">
+        <section className="about-me__abc" id="student">
           <article className="about-me__content-wrapper">
             <h2 className="about-me__content-title">Вячеслав</h2>
             <h3 className="about-me__content-subtitle">

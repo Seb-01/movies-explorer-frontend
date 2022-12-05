@@ -6,8 +6,19 @@ import "./MoviesCard.css";
 
 function MoviesCard(props) {
   return (
-    <Card card={props.card}>
-      <LikeButton />
+    <Card
+      image={"https://api.nomoreparties.co/" + props.card.image.url}
+      nameRU={props.card.nameRU}
+      duration={props.card.duration}
+      trailerLink={props.card.trailerLink}
+      onCardClick={props.onCardClick}
+    >
+      <LikeButton
+        card={props.card}
+        isLiked={props.isLiked}
+        onCardLike={props.onCardLike}
+        onCardDelete={props.onCardDelete}
+      />
     </Card>
   );
 }
