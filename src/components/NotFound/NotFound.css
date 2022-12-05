@@ -31,7 +31,7 @@
   padding: 5px 0 184px;
 }
 
-.notfound__link{
+.notfound__button{
   font-family: 'Inter', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -43,9 +43,11 @@
   cursor: pointer;
   margin: 0;
   text-decoration: none;
+  background: transparent;
+  border: none;
 }
 
-.notfound__link:hover {
+.notfound__button:hover {
   opacity: 0.6;
 }
 
@@ -70,7 +72,7 @@
       width: 300px;
     }
 
-    .notfound__link{
+    .notfound__button{
       font-size: 12px;
       line-height: 15px;
     }

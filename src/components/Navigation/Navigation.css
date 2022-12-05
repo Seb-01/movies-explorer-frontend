@@ -45,6 +45,9 @@
   .navigation__link {
     display: none;
   }
+  .navigation__link_active{
+    text-decoration: dashed;
+  }
 }
 
 @media screen and (min-width: 769px) {

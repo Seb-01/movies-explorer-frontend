@@ -11,6 +11,7 @@
   padding: 17px 0 16px;
   margin: 0;
   text-align: end;
+  outline: none;
 }
 
 @media screen and (max-width: 480px) {
@@ -18,3 +19,4 @@
     width: 220px;
   }
 }
+

@@ -14,6 +14,7 @@ function Navigation(props) {
     >
       <NavLink
         to="/movies"
+        activeClassName="navigation__link_active"
         className={
           props.auth === "true"
             ? "navigation__link navigation__link_auth"
@@ -24,6 +25,7 @@ function Navigation(props) {
       </NavLink>
       <NavLink
         to="/saved-movies"
+        activeClassName="navigation__link_active"
         className={
           props.auth === "true"
             ? "navigation__link navigation__link_auth"

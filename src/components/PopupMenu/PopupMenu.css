@@ -1,4 +1,3 @@
-
 .popup-menu__link-list{
   list-style-type: none;
  padding: 0;
@@ -23,6 +22,10 @@
   text-align: center;
   color: #000000;
   text-decoration: none;
+}
+
+.popup-menu__link_active{
+  border-bottom: 1px solid;
 }
 
 .popup-menu__profile-link-wrapper{

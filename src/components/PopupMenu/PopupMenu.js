@@ -1,5 +1,5 @@
 import "./PopupMenu.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import PopupWithoutForm from "../PopupWithoutForm/PopupWithoutForm";
 import profileIcon from "../../images/profile_icon.svg";
 
@@ -8,31 +8,35 @@ function PopupMenu(props) {
     <PopupWithoutForm isOpen={props.isOpen} onClose={props.onClose}>
       <ul className="popup-menu__link-list">
         <li className="popup-menu__link-item">
-          <Link
+          <NavLink
+            activeClassName="popup-menu__link_active"
             className="popup-menu__link"
+            exact
             to="/"
             onClick={props.updateIsOpenPopupMenu}
           >
             Главная
-          </Link>
+          </NavLink>
         </li>
         <li className="popup-menu__link-item">
-          <Link
+          <NavLink
+            activeClassName="popup-menu__link_active"
             className="popup-menu__link"
             to="/movies"
             onClick={props.updateIsOpenPopupMenu}
           >
             Фильмы
-          </Link>
+          </NavLink>
         </li>
         <li className="popup-menu__link-item">
-          <Link
+          <NavLink
+            activeClassName="popup-menu__link_active"
             className="popup-menu__link"
             to="/saved-movies"
             onClick={props.updateIsOpenPopupMenu}
           >
             Сохраненные фильмы
-          </Link>
+          </NavLink>
         </li>
       </ul>
       <section className="popup-menu__profile-link-wrapper">

@@ -1,16 +1,12 @@
 import React from "react";
-// import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "./TrashButton.css";
 
 function TrashButton(props) {
-  const [isLiked, setIsLiked] = React.useState(false);
-  // подписываемся на контекст CurrentUserContext
-  // const currentUser = React.useContext(CurrentUserContext);
+  //console.log(props.card);
 
-  // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-  // const isLiked = props.card.likes.some((i) => i._id === currentUser._id);
-
-  console.log(props.card);
+  const handleButtonClick = (event) => {
+    props.onCardDelete(props.card);
+  };
 
   return (
     <div>
@@ -18,7 +14,7 @@ function TrashButton(props) {
         className="elements__trash-button"
         type="button"
         aria-label="Trash button"
-        onClick={props.handleLikeClick}
+        onClick={handleButtonClick}
       ></button>
     </div>
   );

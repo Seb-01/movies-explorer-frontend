@@ -1,8 +1,17 @@
 import "./FilterCheckbox.css";
-import React from "react";
+import React, { useEffect } from "react";
 
 function FilterCheckBox(props) {
-  const [isChecked, setIsChecked] = React.useState(false);
+  const [isChecked, setIsChecked] = React.useState(props.initCheck);
+
+  const handleChange = (event) => {
+    setIsChecked(!isChecked);
+    props.onChange(!isChecked);
+  };
+
+  useEffect(() => {
+    setIsChecked(props.initCheck);
+  }, [props.initCheck]);
 
   return (
     <div className="checkbox__container">
@@ -10,9 +19,7 @@ function FilterCheckBox(props) {
         <input
           className="checkbox__input"
           type="checkbox"
-          onChange={() => {
-            setIsChecked(!isChecked);
-          }}
+          onChange={handleChange}
         ></input>
         <svg
           className={`checkbox__mark ${

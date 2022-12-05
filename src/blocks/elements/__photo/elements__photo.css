@@ -13,10 +13,24 @@
   opacity: 0.6;
 }
 
+@media screen and (max-width: 1020px) {
+  .elements__photo {
+    width: 339px;
+    height: 190px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .elements__photo {
     width: 339px;
     height: 190px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .elements__photo {
+    width: 300px;
+    height: 168px;
   }
 }
 
